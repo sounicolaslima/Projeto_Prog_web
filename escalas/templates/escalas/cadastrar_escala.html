@@ -1,0 +1,26 @@
+<h2>Cadastrar Escala</h2>
+<form method="post">
+{% csrf_token %}
+<div class="mb-3">
+<label>Freelancer</label>
+<select name="freelancer" class="form-control" required>
+{% for f in freelancers %}
+<option value="{{ f.id }}">{{ f.nome }}</option>
+{% endfor %}
+</select>
+</div>
+<div class="mb-3">
+<label>Data</label>
+<input type="date" name="data" class="form-control" required>
+</div>
+<div class="mb-3">
+<label>Horário Início</label>
+<input type="time" name="horario_inicio" class="form-control" required>
+</div>
+<div class="mb-3">
+<label>Horário Fim</label>
+<input type="time" name="horario_fim" class="form-control" required>
+</div>
+<button type="submit" class="btn btn-primary">Cadastrar</button>
+<a href="{% url 'listar_escalas' %}" class="btn btn-secondary">Voltar</a>
+</form>

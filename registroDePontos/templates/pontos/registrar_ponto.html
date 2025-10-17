@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Registrar Ponto</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+
+<h1 class="mb-4">Registrar Ponto - {{ freelancer.nome }}</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" name="acao" value="entrada" class="btn btn-success">Registrar Entrada</button>
+    <button type="submit" name="acao" value="saida" class="btn btn-danger">Registrar Saída</button>
+    <a href="{% url 'listar_pontos' freelancer.id %}" class="btn btn-secondary">Voltar</a>
+</form>
+
+</body>
+</html>

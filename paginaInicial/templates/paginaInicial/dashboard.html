@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard - Gestão de Freelancers</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+<h1 class="mb-4">Dashboard - Gestão de Freelancers</h1>
+
+<div class="row g-3">
+    <div class="col-md-3">
+        <a href="{% url 'listar_freelancers' %}" class="btn btn-primary w-100 py-4">Freelancers</a>
+    </div>
+    <div class="col-md-3">
+        <a href="{% url 'listar_escalas' %}" class="btn btn-success w-100 py-4">Escalas</a>
+    </div>
+    <div class="col-md-3">
+        <a href="{% url 'listar_pagamentos' %}" class="btn btn-warning w-100 py-4">Pagamentos</a>
+    </div>
+    <div class="col-md-3">
+        <a href="{% url 'listar_pontos' 1 %}" class="btn btn-info w-100 py-4">Registro de Ponto</a>
+        <!-- Substitua "1" pelo ID do freelancer ou torne dinâmico -->
+    </div>
+</div>
+</body>
+</html>

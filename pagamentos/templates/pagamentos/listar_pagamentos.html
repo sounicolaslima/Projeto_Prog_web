@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Pagamentos</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+
+<h1 class="mb-4">Pagamentos</h1>
+
+<a href="{% url 'cadastrar_pagamento' %}" class="btn btn-primary mb-3">Cadastrar Pagamento</a>
+
+<table class="table table-bordered">
+<thead>
+<tr>
+<th>Freelancer</th>
+<th>Período</th>
+<th>Valor</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+{% for p in pagamentos %}
+<tr>
+<td>{{ p.freelancer.nome }}</td>
+<td>{{ p.periodo_inicio }} - {{ p.periodo_fim }}</td>
+<td>{{ p.valor_calculado }}</td>
+<td>{{ p.status }}</td>
+</tr>
+{% empty %}
+<tr><td colspan="4">Nenhum pagamento registrado.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+
+</body>
+</html>

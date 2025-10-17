@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Cadastrar Freelancer</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+<h2>Cadastrar Freelancer</h2>
+<form method="post">
+{% csrf_token %}
+<div class="mb-3">
+<label>Nome</label>
+<input type="text" name="nome" class="form-control" required>
+</div>
+<div class="mb-3">
+<label>CPF</label>
+<input type="text" name="cpf" class="form-control" required>
+</div>
+<div class="mb-3">
+<label>Contato</label>
+<input type="text" name="contato" class="form-control" required>
+</div>
+<div class="mb-3">
+<label>Valor/Hora</label>
+<input type="number" step="0.01" name="valor_hora" class="form-control" required>
+</div>
+<button type="submit" class="btn btn-primary">Cadastrar</button>
+<a href="{% url 'listar_freelancers' %}" class="btn btn-secondary">Voltar</a>
+</form>
+</body>
+</html>
+

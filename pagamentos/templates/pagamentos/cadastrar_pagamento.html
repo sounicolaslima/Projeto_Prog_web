@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Cadastrar Pagamento</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+
+<h1 class="mb-4">Cadastrar Pagamento</h1>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label>Freelancer</label>
+        <select name="freelancer" class="form-control" required>
+            {% for f in freelancers %}
+            <option value="{{ f.id }}">{{ f.nome }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Período Início</label>
+        <input type="date" name="periodo_inicio" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label>Período Fim</label>
+        <input type="date" name="periodo_fim" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label>Valor</label>
+        <input type="number" step="0.01" name="valor" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label>Status</label>
+        <select name="status" class="form-control" required>
+            <option value="Pendente">Pendente</option>
+            <option value="Pago">Pago</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Salvar</button>
+    <a href="{% url 'listar_pagamentos' %}" class="btn btn-secondary">Voltar</a>
+</form>
+
+</body>
+</html>
+
