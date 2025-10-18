@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalhes - {{ freelancer.nome }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card card-custom">
+            <div class="card-header bg-primary text-white">
+                <h4 class="card-title mb-0">
+                    <i class="bi bi-person-badge me-2"></i>Detalhes do Freelancer
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 text-center mb-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
+                            <i class="bi bi-person-fill text-primary fs-1"></i>
+                        </div>
+                        <h3 class="text-primary fw-bold">{{ freelancer.nome }}</h3>
+                        {% if freelancer.status == 'ativo' %}
+                        <span class="badge bg-success status-badge">Ativo</span>
+                        {% elif freelancer.status == 'inativo' %}
+                        <span class="badge bg-danger status-badge">Inativo</span>
+                        {% elif freelancer.status == 'ferias' %}
+                        <span class="badge bg-warning status-badge">Férias</span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card bg-light border-0">
+                            <div class="card-body">
+                                <h5 class="fw-bold mb-3">
+                                    <i class="bi bi-currency-dollar me-2"></i>Informações Financeiras
+                                </h5>
+                                <div class="text-center">
+                                    <h2 class="text-success fw-bold">R$ {{ freelancer.valor_hora }}</h2>
+                                    <p class="text-muted mb-0">Valor por hora</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h5 class="fw-bold border-bottom pb-2">
+                            <i class="bi bi-info-circle me-2"></i>Informações Pessoais
+                        </h5>
+                        <div class="mb-3">
+                            <strong>CPF:</strong>
+                            <p class="text-dark">{{ freelancer.cpf }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Contato:</strong>
+                            <p class="text-dark">{{ freelancer.contato }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Status:</strong>
+                            {% if freelancer.status == 'ativo' %}
+                            <span class="badge bg-success">Ativo</span>
+                            {% elif freelancer.status == 'inativo' %}
+                            <span class="badge bg-danger">Inativo</span>
+                            {% elif freelancer.status == 'ferias' %}
+                            <span class="badge bg-warning">Férias</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <h5 class="fw-bold border-bottom pb-2">
+                            <i class="bi bi-graph-up me-2"></i>Estatísticas
+                        </h5>
+                        <div class="mb-3">
+                            <strong>Total de Escalas:</strong>
+                            <p class="text-dark">0</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Total de Pagamentos:</strong>
+                            <p class="text-dark">R$ 0,00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent">
+                <div class="d-flex gap-2">
+                    <a href="{% url 'editar_freelancer' freelancer.id %}" class="btn btn-warning btn-custom">
+                        <i class="bi bi-pencil me-2"></i>Editar
+                    </a>
+                    <a href="{% url 'listar_pontos' freelancer.id %}" class="btn btn-info btn-custom">
+                        <i class="bi bi-clock me-2"></i>Registro de Ponto
+                    </a>
+                    <a href="{% url 'listar_freelancers' %}" class="btn btn-secondary btn-custom ms-auto">
+                        <i class="bi bi-arrow-left me-2"></i>Voltar para Lista
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
