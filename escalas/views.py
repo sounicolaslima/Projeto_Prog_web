@@ -9,6 +9,9 @@ from freelancers.models import Freelancer
 
 @login_required
 def listar_escalas(request):
+    if hasattr(request.user, 'perfilusuario') and request.user.perfilusuario.tipo == 'freelancer':
+        return redirect('dashboard_freelancer')
+    
     # Filtros
     freelancer_filter = request.GET.get('freelancer', '')
     status_filter = request.GET.get('status', '')

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Freelancer
+from .models import Freelancer, PerfilUsuario
 
 class FreelancerAdmin(admin.ModelAdmin):
     list_display = ('nome', 'cpf', 'valor_hora', 'status') 
@@ -7,3 +7,4 @@ class FreelancerAdmin(admin.ModelAdmin):
     list_filter = ('status',) 
 
 admin.site.register(Freelancer, FreelancerAdmin)
+admin.site.register(PerfilUsuario)

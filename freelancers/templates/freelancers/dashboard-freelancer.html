@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard Freelancer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'dashboard_freelancer' %}">Área do Freelancer</a>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text me-3">Olá, {{ freelancer.nome }}</span>
+                <a class="nav-link" href="{% url 'minhas_escalas' %}">Minhas Escalas</a>
+                <a class="nav-link" href="{% url 'meus_pontos' %}">Meus Pontos</a>
+                <a class="nav-link" href="{% url 'logout' %}">Sair</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1>Dashboard - {{ freelancer.nome }}</h1>
+        
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h3>Escalas de Hoje ({{ hoje|date:"d/m/Y" }})</h3>
+                {% if escalas_hoje %}
+                    {% for escala in escalas_hoje %}
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ escala.horario_inicio }} - {{ escala.horario_fim }}</h5>
+                            <p class="mb-1">Status: 
+                                <span class="badge bg-{% if escala.status == 'Agendada' %}warning{% elif escala.status == 'Em Andamento' %}success{% else %}secondary{% endif %}">
+                                    {{ escala.status }}
+                                </span>
+                            </p>
+                            <p class="mb-0">Duração: {{ escala.duracao }} horas</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-info">Nenhuma escala para hoje.</div>
+                {% endif %}
+            </div>
+            
+            <div class="col-md-6">
+                <h3>Registro de Ponto</h3>
+                <div class="card">
+                    <div class="card-body text-center">
+                        {% if registro_andamento %}
+                            <h5>Ponto em Andamento</h5>
+                            <p>Entrada: {{ registro_andamento.data_entrada|date:"d/m/Y H:i" }}</p>
+                            <form method="post" action="{% url 'meus_pontos' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="acao" value="saida">
+                                <button type="submit" class="btn btn-danger btn-lg">Registrar Saída</button>
+                            </form>
+                        {% else %}
+                            <h5>Registrar Ponto</h5>
+                            <form method="post" action="{% url 'meus_pontos' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="acao" value="entrada">
+                                <button type="submit" class="btn btn-success btn-lg">Registrar Entrada</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <h3 class="mt-4">Próximas Escalas</h3>
+                {% if proximas_escalas %}
+                    {% for escala in proximas_escalas %}
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <h6 class="card-title">{{ escala.data|date:"d/m/Y" }} - {{ escala.horario_inicio }} às {{ escala.horario_fim }}</h6>
+                            <p class="mb-0">Status: {{ escala.status }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">Nenhuma escala futura.</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12">
+                <h3>Últimos Registros de Ponto</h3>
+                {% if registros_recentes %}
+                    {% for registro in registros_recentes %}
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <h6 class="card-title">{{ registro.data_entrada|date:"d/m/Y" }}</h6>
+                            <p class="mb-1">Entrada: {{ registro.data_entrada|time:"H:i" }}</p>
+                            {% if registro.data_saida %}
+                                <p class="mb-1">Saída: {{ registro.data_saida|time:"H:i" }}</p>
+                                <p class="mb-0">Duração: {{ registro.duracao }}</p>
+                            {% else %}
+                                <p class="mb-0 text-warning">Em andamento</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">Nenhum registro de ponto encontrado.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
