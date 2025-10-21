@@ -6,9 +6,14 @@ from pagamentos.models import Pagamento
 from registroDePontos.models import RegistroDePonto
 from django.db.models import Count, Sum, Q
 from datetime import datetime, date, timedelta
+from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 
 @login_required 
 def dashboard(request):
+    if hasattr(request.user, 'perfilusuario'):
+        if request.user.perfilusuario.tipo == 'freelancer':
+            return redirect('dashboard_freelancer')
     # Calcular estatísticas em tempo real
     hoje = date.today()
     
