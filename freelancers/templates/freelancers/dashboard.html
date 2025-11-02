@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - {{ freelancer.nome }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Cabeçalho -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 fw-bold text-dark">
+                    <i class="bi bi-speedometer2 me-2"></i>Meu Dashboard
+                </h1>
+                <p class="text-muted">Bem-vindo, {{ freelancer.nome }}!</p>
+            </div>
+            <div class="text-end">
+                <span class="badge bg-info fs-6">
+                    <i class="bi bi-person me-1"></i>Freelancer
+                </span>
+                <p class="text-muted mb-0 mt-1"><small>Valor/hora: R$ {{ freelancer.valor_hora }}</small></p>
+            </div>
+        </div>
+
+        <!-- Cards de Resumo -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card card-custom bg-primary bg-opacity-10 border-primary">
+                    <div class="card-body text-center">
+                        <i class="bi bi-calendar-check text-primary fs-1 mb-2"></i>
+                        <h4 class="text-primary fw-bold">{{ escalas_hoje.count }}</h4>
+                        <p class="text-muted mb-0">Escalas Hoje</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-custom bg-success bg-opacity-10 border-success">
+                    <div class="card-body text-center">
+                        <i class="bi bi-clock text-success fs-1 mb-2"></i>
+                        <h4 class="text-success fw-bold">{{ proximas_escalas.count }}</h4>
+                        <p class="text-muted mb-0">Próximas Escalas</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-custom bg-warning bg-opacity-10 border-warning">
+                    <div class="card-body text-center">
+                        <i class="bi bi-clock-history text-warning fs-1 mb-2"></i>
+                        <h4 class="text-warning fw-bold">{{ registros_recentes.count }}</h4>
+                        <p class="text-muted mb-0">Registros Recentes</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-custom {% if registro_andamento %}bg-danger bg-opacity-10 border-danger{% else %}bg-secondary bg-opacity-10 border-secondary{% endif %}">
+                    <div class="card-body text-center">
+                        <i class="bi bi-{% if registro_andamento %}play-circle{% else %}stop-circle{% endif %} {% if registro_andamento %}text-danger{% else %}text-secondary{% endif %} fs-1 mb-2"></i>
+                        <h4 class="{% if registro_andamento %}text-danger{% else %}text-secondary{% endif %} fw-bold">
+                            {% if registro_andamento %}Em Andamento{% else %}Parado{% endif %}
+                        </h4>
+                        <p class="text-muted mb-0">Ponto</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ações Rápidas -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card card-custom">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-lightning me-2"></i>Ações Rápidas
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <a href="{% url 'meus_pontos' %}" class="btn btn-outline-primary w-100 py-3">
+                                    <i class="bi bi-clock fs-4 mb-2 d-block"></i>
+                                    Meus Pontos
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="{% url 'minhas_escalas' %}" class="btn btn-outline-success w-100 py-3">
+                                    <i class="bi bi-calendar-event fs-4 mb-2 d-block"></i>
+                                    Minhas Escalas
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="{% url 'meus_pagamentos' %}" class="btn btn-outline-info w-100 py-3">
+                                    <i class="bi bi-currency-dollar fs-4 mb-2 d-block"></i>
+                                    Meus Pagamentos
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Escalas de Hoje -->
+            <div class="col-md-6">
+                <div class="card card-custom">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-calendar-day me-2"></i>Escalas de Hoje
+                            <span class="badge bg-white text-info ms-2">{{ escalas_hoje.count }}</span>
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        {% if escalas_hoje %}
+                            <div class="list-group list-group-flush">
+                                {% for escala in escalas_hoje %}
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>{{ escala.horario_inicio|time:"H:i" }} - {{ escala.horario_fim|time:"H:i" }}</strong>
+                                        <br>
+                                        <small class="text-muted">Duração: {{ escala.duracao }}h</small>
+                                    </div>
+                                    <span class="badge {% if escala.status == 'Concluída' %}bg-success{% elif escala.status == 'Em Andamento' %}bg-warning{% else %}bg-info{% endif %}">
+                                        {{ escala.status }}
+                                    </span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="text-center py-4">
+                                <i class="bi bi-calendar-x text-muted fs-1 mb-3"></i>
+                                <p class="text-muted mb-0">Nenhuma escala para hoje</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Próximas Escalas -->
+            <div class="col-md-6">
+                <div class="card card-custom">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-calendar-week me-2"></i>Próximas Escalas
+                            <span class="badge bg-white text-warning ms-2">{{ proximas_escalas.count }}</span>
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        {% if proximas_escalas %}
+                            <div class="list-group list-group-flush">
+                                {% for escala in proximas_escalas %}
+                                <div class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <strong>{{ escala.data|date:"d/m/Y" }}</strong>
+                                            <br>
+                                            <small class="text-muted">{{ escala.horario_inicio|time:"H:i" }} - {{ escala.horario_fim|time:"H:i" }}</small>
+                                        </div>
+                                        <span class="badge bg-info">{{ escala.status }}</span>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="text-center py-4">
+                                <i class="bi bi-calendar-plus text-muted fs-1 mb-3"></i>
+                                <p class="text-muted mb-0">Nenhuma escala futura</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registros Recentes de Ponto -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card card-custom">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-list-check me-2"></i>Registros de Ponto Recentes
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        {% if registros_recentes %}
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Data</th>
+                                            <th>Entrada</th>
+                                            <th>Saída</th>
+                                            <th>Duração</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for registro in registros_recentes %}
+                                        <tr>
+                                            <td>{{ registro.data_entrada|date:"d/m/Y" }}</td>
+                                            <td>{{ registro.data_entrada|time:"H:i" }}</td>
+                                            <td>
+                                                {% if registro.data_saida %}
+                                                    {{ registro.data_saida|time:"H:i" }}
+                                                {% else %}
+                                                    <span class="text-warning">---</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if registro.data_saida %}
+                                                    {{ registro.duracao }}
+                                                {% else %}
+                                                    <span class="text-warning">Em andamento</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if registro.data_saida %}
+                                                    <span class="badge bg-success">Concluído</span>
+                                                {% else %}
+                                                    <span class="badge bg-warning">Em andamento</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="text-center py-4">
+                                <i class="bi bi-clock-history text-muted fs-1 mb-3"></i>
+                                <p class="text-muted mb-0">Nenhum registro de ponto encontrado</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

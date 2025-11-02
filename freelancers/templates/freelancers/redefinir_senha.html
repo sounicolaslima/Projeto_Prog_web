@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Redefinir Senha - {{ freelancer.nome }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card card-custom">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-key me-2"></i>Redefinir Senha
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Redefinindo senha para <strong>{{ freelancer.nome }}</strong>
+                </div>
+
+                <div class="freelancer-info bg-light p-3 rounded mb-4">
+                    <h6>Informações do Usuário:</h6>
+                    <p class="mb-1"><strong>Nome:</strong> {{ freelancer.nome }}</p>
+                    <p class="mb-1"><strong>CPF:</strong> {{ freelancer.cpf }}</p>
+                    <p class="mb-0"><strong>Usuário:</strong> {{ freelancer.perfilusuario.user.username }}</p>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nova Senha</label>
+                        <input type="password" name="nova_senha" class="form-control" 
+                               placeholder="Digite a nova senha" required
+                               minlength="6">
+                        <div class="form-text">A senha deve ter pelo menos 6 caracteres.</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Confirmar Nova Senha</label>
+                        <input type="password" name="confirmar_senha" class="form-control" 
+                               placeholder="Confirme a nova senha" required
+                               minlength="6">
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-warning btn-lg">
+                            <i class="bi bi-arrow-repeat me-2"></i>Redefinir Senha
+                        </button>
+                        <a href="{% url 'visualizar_freelancer' freelancer.id %}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

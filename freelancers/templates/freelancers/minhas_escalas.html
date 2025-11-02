@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}Minhas Escalas - {{ freelancer.nome }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 fw-bold text-dark">
+                    <i class="bi bi-calendar-event me-2"></i>Minhas Escalas
+                </h1>
+                <p class="text-muted">Escalas de {{ freelancer.nome }}</p>
+            </div>
+            <a href="{% url 'dashboard_freelancer' %}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2"></i>Voltar ao Dashboard
+            </a>
+        </div>
+
+        <!-- Filtros -->
+        <div class="card card-custom mb-4">
+            <div class="card-body">
+                <h6 class="fw-bold mb-3">
+                    <i class="bi bi-funnel me-2"></i>Filtrar Escalas
+                </h6>
+                <form method="GET" class="row g-3">
+                    <div class="col-md-4">
+                        <input type="date" name="data_inicio" class="form-control" 
+                               value="{{ data_inicio }}" placeholder="Data início">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="date" name="data_fim" class="form-control" 
+                               value="{{ data_fim }}" placeholder="Data fim">
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-outline-primary w-100">
+                            <i class="bi bi-funnel me-2"></i>Filtrar
+                        </button>
+                        <a href="{% url 'minhas_escalas' %}" class="btn btn-outline-secondary w-100 mt-2">
+                            <i class="bi bi-arrow-clockwise me-2"></i>Limpar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Lista de Escalas -->
+        <div class="card card-custom">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-list-ul me-2"></i>Lista de Escalas
+                    <span class="badge bg-white text-primary ms-2">{{ escalas.count }}</span>
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                {% if escalas %}
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">Data</th>
+                                <th>Horário</th>
+                                <th>Duração</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for escala in escalas %}
+                            <tr>
+                                <td class="ps-4">
+                                    <strong>{{ escala.data|date:"d/m/Y" }}</strong>
+                                </td>
+                                <td>
+                                    {{ escala.horario_inicio|time:"H:i" }} - {{ escala.horario_fim|time:"H:i" }}
+                                </td>
+                                <td>
+                                    <span class="fw-bold text-info">{{ escala.duracao }}h</span>
+                                </td>
+                                <td>
+                                    {% if escala.status == "Concluída" %}
+                                    <span class="badge bg-success">Concluída</span>
+                                    {% elif escala.status == "Em Andamento" %}
+                                    <span class="badge bg-warning">Em Andamento</span>
+                                    {% else %}
+                                    <span class="badge bg-info">Agendada</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-calendar-x text-muted fs-1 mb-3"></i>
+                    <h5 class="text-muted">Nenhuma escala encontrada</h5>
+                    <p class="text-muted">
+                        {% if data_inicio or data_fim %}
+                        Tente ajustar os filtros de data
+                        {% else %}
+                        Você não possui escalas cadastradas
+                        {% endif %}
+                    </p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

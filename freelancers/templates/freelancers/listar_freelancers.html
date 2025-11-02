@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+
+{% block title %}Freelancers - Gestão de Freelancers{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 fw-bold text-dark">
+                    <i class="bi bi-people me-2"></i>Freelancers
+                </h1>
+                <p class="text-muted">Gestão completa dos profissionais freelancers</p>
+            </div>
+            <a href="{% url 'cadastrar_freelancer' %}" class="btn btn-primary btn-custom">
+                <i class="bi bi-plus-circle me-2"></i>Cadastrar Freelancer
+            </a>
+        </div>
+
+        <!-- Cards de Resumo -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card card-custom bg-primary bg-opacity-10 border-primary">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="text-primary fw-bold">{{ freelancers|length }}</h4>
+                                <p class="text-muted mb-0">Total de Freelancers</p>
+                            </div>
+                            <i class="bi bi-people text-primary fs-3"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-custom bg-success bg-opacity-10 border-success">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="text-success fw-bold">{{ freelancers_ativos }}</h4>
+                                <p class="text-muted mb-0">Freelancers Ativos</p>
+                            </div>
+                            <i class="bi bi-person-check text-success fs-3"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-custom">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-list-ul me-2"></i>Lista de Freelancers
+                </h5>
+                <!-- Busca Funcional -->
+                <form method="GET" class="d-flex" style="width: 300px;">
+                    <input type="text" name="q" class="form-control" placeholder="Buscar por nome..." value="{{ query }}">
+                    <button class="btn btn-light" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="card-body p-0">
+                {% if freelancers %}
+                <div class="table-responsive">
+                    <table class="table table-hover table-custom mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">Nome</th>
+                                <th>Tipo</th>
+                                <th>CPF</th>
+                                <th>Contato</th>
+                                <th>Valor/Hora</th>
+                                <th>Status</th>
+                                <th class="text-center">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for f in freelancers %}
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-primary bg-opacity-10 rounded-circle p-2 me-3">
+                                            <i class="bi bi-person text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <strong>{{ f.nome }}</strong>
+                                            <br>
+                                            <small class="text-muted">ID: {{ f.id }}</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <!-- Tipo de Usuário -->
+                                    {% if f.tipo_usuario == 'admin' %}
+                                        <span class="badge bg-warning status-badge">
+                                            <i class="bi bi-shield-check me-1"></i>Admin
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-info status-badge">
+                                            <i class="bi bi-person-check me-1"></i>Freelancer
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <code class="text-dark">{{ f.cpf }}</code>
+                                </td>
+                                <td>
+                                    <span class="fw-bold">{{ f.contato }}</span>
+                                </td>
+                                <td>
+                                    <span class="fw-bold text-success fs-6">
+                                        R$ {{ f.valor_hora }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if f.status == 'ativo' %}
+                                    <span class="badge bg-success status-badge">
+                                        <i class="bi bi-check-circle me-1"></i>Ativo
+                                    </span>
+                                    {% elif f.status == 'inativo' %}
+                                    <span class="badge bg-danger status-badge">
+                                        <i class="bi bi-x-circle me-1"></i>Inativo
+                                    </span>
+                                    {% elif f.status == 'licenca' %}
+                                    <span class="badge bg-warning status-badge">
+                                        <i class="bi bi-sun me-1"></i>Licença
+                                    </span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                        <a href="{% url 'listar_pontos' f.id %}" class="btn btn-sm btn-outline-info" title="Registro de Ponto">
+                                            <i class="bi bi-clock"></i>
+                                        </a>
+                                        <a href="{% url 'editar_freelancer' f.id %}" class="btn btn-sm btn-outline-warning" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a href="{% url 'visualizar_freelancer' f.id %}" class="btn btn-sm btn-outline-primary" title="Detalhes">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <div class="bg-light rounded-circle d-inline-flex p-4 mb-3">
+                        <i class="bi bi-person-plus text-muted fs-1"></i>
+                    </div>
+                    <h5 class="text-muted">
+                        {% if query %}
+                        Nenhum freelancer encontrado para "{{ query }}"
+                        {% else %}
+                        Nenhum freelancer cadastrado
+                        {% endif %}
+                    </h5>
+                    <p class="text-muted mb-4">
+                        {% if query %}
+                        Tente buscar com outros termos
+                        {% else %}
+                        Comece cadastrando o primeiro freelancer
+                        {% endif %}
+                    </p>
+                    <a href="{% url 'cadastrar_freelancer' %}" class="btn btn-primary btn-custom">
+                        <i class="bi bi-plus-circle me-2"></i>Cadastrar Freelancer
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Ações Rápidas -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card card-custom bg-primary text-white">
+                    <div class="card-body text-center">
+                        <i class="bi bi-clock-history fs-1 mb-3"></i>
+                        <h5>Registro de Ponto</h5>
+                        <p class="mb-3">Controle de entrada e saída</p>
+                        {% if freelancers %}
+                        <a href="{% url 'listar_pontos' freelancers.0.id %}" class="btn btn-light btn-custom">
+                            <i class="bi bi-arrow-right me-2"></i>Acessar
+                        </a>
+                        {% else %}
+                        <button class="btn btn-light btn-custom" disabled>
+                            <i class="bi bi-arrow-right me-2"></i>Cadastre um freelancer
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-custom bg-success text-white">
+                    <div class="card-body text-center">
+                        <i class="bi bi-currency-dollar fs-1 mb-3"></i>
+                        <h5>Pagamentos</h5>
+                        <p class="mb-3">Gestão financeira</p>
+                        <a href="{% url 'listar_pagamentos' %}" class="btn btn-light btn-custom">
+                            <i class="bi bi-arrow-right me-2"></i>Acessar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalhes da Escala - {{ escala.freelancer.nome }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card card-custom">
+            <div class="card-header bg-primary text-white">
+                <h4 class="card-title mb-0">
+                    <i class="bi bi-calendar-event me-2"></i>Detalhes da Escala
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 text-center mb-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
+                            <i class="bi bi-person-fill text-primary fs-1"></i>
+                        </div>
+                        <h3 class="text-primary fw-bold">{{ escala.freelancer.nome }}</h3>
+                        <span class="badge {% if escala.status == 'Concluída' %}bg-success{% elif escala.status == 'Em Andamento' %}bg-warning{% else %}bg-info{% endif %} status-badge">
+                            {{ escala.status }}
+                        </span>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card bg-light border-0">
+                            <div class="card-body text-center">
+                                <h2 class="text-success fw-bold">{{ escala.duracao }}h</h2>
+                                <p class="text-muted mb-0">Duração Total</p>
+                                <hr>
+                                <p class="mb-1"><strong>Valor/Hora:</strong> R$ {{ escala.freelancer.valor_hora }}</p>
+                                <p class="mb-0"><strong>Valor Estimado:</strong> R$ {{ escala.valor_estimado|default:"0.00" }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h5 class="fw-bold border-bottom pb-2">
+                            <i class="bi bi-calendar me-2"></i>Data e Horário
+                        </h5>
+                        <div class="mb-3">
+                            <strong>Data:</strong>
+                            <p class="text-dark">{{ escala.data|date:"d/m/Y" }} ({{ escala.data|date:"l" }})</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Horário:</strong>
+                            <p class="text-dark">{{ escala.horario_inicio|time:"H:i" }} - {{ escala.horario_fim|time:"H:i" }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <h5 class="fw-bold border-bottom pb-2">
+                            <i class="bi bi-info-circle me-2"></i>Informações
+                        </h5>
+                        <div class="mb-3">
+                            <strong>Freelancer:</strong>
+                            <p class="text-dark">{{ escala.freelancer.nome }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Contato:</strong>
+                            <p class="text-dark">{{ escala.freelancer.contato }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Status:</strong>
+                            <span class="badge {% if escala.status == 'Concluída' %}bg-success{% elif escala.status == 'Em Andamento' %}bg-warning{% else %}bg-info{% endif %}">
+                                {{ escala.status }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent">
+                <div class="d-flex gap-2">
+                    <a href="{% url 'editar_escala' escala.id %}" class="btn btn-warning btn-custom">
+                        <i class="bi bi-pencil me-2"></i>Editar
+                    </a>
+                    <a href="{% url 'listar_escalas' %}" class="btn btn-secondary btn-custom ms-auto">
+                        <i class="bi bi-arrow-left me-2"></i>Voltar para Lista
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

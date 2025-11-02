@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalhes - {{ freelancer.nome }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card card-custom">
+            <div class="card-header bg-primary text-white">
+                <h4 class="card-title mb-0">
+                    <i class="bi bi-person-badge me-2"></i>Detalhes do Freelancer
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 text-center mb-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
+                            <i class="bi bi-person-fill text-primary fs-1"></i>
+                        </div>
+                        <h3 class="text-primary fw-bold">{{ freelancer.nome }}</h3>
+                        
+                        <!-- Tipo de Usuário -->
+                        {% with tipo=freelancer.tipo_usuario %}
+                            {% if tipo == 'admin' %}
+                                <span class="badge bg-warning status-badge">
+                                    <i class="bi bi-shield-check me-1"></i>Administrador
+                                </span>
+                            {% else %}
+                                <span class="badge bg-info status-badge">
+                                    <i class="bi bi-person-check me-1"></i>Freelancer
+                                </span>
+                            {% endif %}
+                        {% endwith %}
+                        <br>
+                        
+                        <!-- Status -->
+                        {% if freelancer.status == 'ativo' %}
+                        <span class="badge bg-success status-badge mt-2">Ativo</span>
+                        {% elif freelancer.status == 'inativo' %}
+                        <span class="badge bg-danger status-badge mt-2">Inativo</span>
+                        {% elif freelancer.status == 'licenca' %}
+                        <span class="badge bg-warning status-badge mt-2">Licença</span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card bg-light border-0">
+                            <div class="card-body">
+                                <h5 class="fw-bold mb-3">
+                                    <i class="bi bi-currency-dollar me-2"></i>Informações Financeiras
+                                </h5>
+                                <div class="text-center">
+                                    <h2 class="text-success fw-bold">R$ {{ freelancer.valor_hora }}</h2>
+                                    <p class="text-muted mb-0">Valor por hora</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h5 class="fw-bold border-bottom pb-2">
+                            <i class="bi bi-info-circle me-2"></i>Informações Pessoais
+                        </h5>
+                        <div class="mb-3">
+                            <strong>CPF:</strong>
+                            <p class="text-dark">{{ freelancer.cpf }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Contato:</strong>
+                            <p class="text-dark">{{ freelancer.contato }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Tipo de Usuário:</strong>
+                            {% with tipo=freelancer.tipo_usuario %}
+                                {% if tipo == 'admin' %}
+                                    <span class="badge bg-warning">Administrador</span>
+                                {% else %}
+                                    <span class="badge bg-info">Freelancer</span>
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+                        <div class="mb-3">
+                            <strong>Status:</strong>
+                            {% if freelancer.status == 'ativo' %}
+                            <span class="badge bg-success">Ativo</span>
+                            {% elif freelancer.status == 'inativo' %}
+                            <span class="badge bg-danger">Inativo</span>
+                            {% elif freelancer.status == 'licenca' %}
+                            <span class="badge bg-warning">Licença</span>
+                            {% endif %}
+                        </div>
+
+                        <!-- INFORMAÇÕES DE ACESSO -->
+                        {% if freelancer.perfilusuario %}
+                        <div class="mb-3">
+                            <strong>Usuário de Acesso:</strong>
+                            <p class="text-dark">{{ freelancer.perfilusuario.user.username }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <h5 class="fw-bold border-bottom pb-2">
+                            <i class="bi bi-graph-up me-2"></i>Estatísticas
+                        </h5>
+                        
+                        <!-- Estatísticas reais -->
+                        <div class="mb-3">
+                            <strong>Total de Escalas:</strong>
+                            <p class="text-dark">{{ total_escalas|default:"0" }}</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong>Total de Pagamentos:</strong>
+                            <p class="text-dark">R$ {{ total_pagamentos|default:"0.00" }}</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong>Horas Trabalhadas (Este Mês):</strong>
+                            <p class="text-dark">{{ horas_mes|default:"0" }}h</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEÇÃO DE ESCALAS RECENTES -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h5 class="fw-bold border-bottom pb-2">
+                            <i class="bi bi-calendar-event me-2"></i>Escalas Recentes
+                        </h5>
+                        {% with escalas_recentes=escalas_recentes %}
+                            {% if escalas_recentes %}
+                                <div class="list-group">
+                                    {% for escala in escalas_recentes %}
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>{{ escala.data|date:"d/m/Y" }}</strong>
+                                            <small class="text-muted ms-2">{{ escala.horario_inicio|time:"H:i" }} - {{ escala.horario_fim|time:"H:i" }}</small>
+                                        </div>
+                                        <span class="badge {% if escala.status == 'Concluída' %}bg-success{% elif escala.status == 'Em Andamento' %}bg-warning{% else %}bg-info{% endif %}">
+                                            {{ escala.status }}
+                                        </span>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p class="text-muted">Nenhuma escala registrada para este freelancer.</p>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent">
+                <div class="d-flex gap-2 flex-wrap">
+                    <a href="{% url 'editar_freelancer' freelancer.id %}" class="btn btn-warning btn-custom">
+                        <i class="bi bi-pencil me-2"></i>Editar
+                    </a>
+                    
+                    <!-- BOTÃO REDEFINIR SENHA -->
+                    {% if freelancer.perfilusuario %}
+                    <a href="{% url 'redefinir_senha' freelancer.id %}" class="btn btn-outline-warning btn-custom">
+                        <i class="bi bi-key me-2"></i>Redefinir Senha
+                    </a>
+                    {% endif %}
+                    
+                    <a href="{% url 'listar_pontos' freelancer.id %}" class="btn btn-info btn-custom">
+                        <i class="bi bi-clock me-2"></i>Registro de Ponto
+                    </a>
+                    
+                    <!-- BOTÃO DE EXCLUIR -->
+                    <button type="button" class="btn btn-danger btn-custom" data-bs-toggle="modal" data-bs-target="#modalExcluir{{ freelancer.id }}">
+                        <i class="bi bi-trash me-2"></i>Excluir
+                    </button>
+                    
+                    <a href="{% url 'listar_freelancers' %}" class="btn btn-secondary btn-custom ms-auto">
+                        <i class="bi bi-arrow-left me-2"></i>Voltar para Lista
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Confirmação de Exclusão -->
+<div class="modal fade" id="modalExcluir{{ freelancer.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">
+                    <i class="bi bi-exclamation-triangle me-2"></i>Confirmar Exclusão
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="fw-bold">Tem certeza que deseja excluir o freelancer <span class="text-primary">"{{ freelancer.nome }}"</span>?</p>
+                <p class="text-muted">Esta ação não pode ser desfeita. Todos os dados relacionados a este freelancer serão perdidos.</p>
+                
+                <!-- AVISO SOBRE DADOS RELACIONADOS -->
+                <div class="alert alert-warning mt-3">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <strong>Atenção:</strong> Também serão excluídos:
+                    <ul class="mb-0 mt-2">
+                        <li>Usuário de acesso ao sistema</li>
+                        <li>Todas as escalas associadas</li>
+                        <li>Registros de ponto</li>
+                        <li>Histórico de pagamentos</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle me-2"></i>Cancelar
+                </button>
+                <form method="POST" action="{% url 'excluir_freelancer' freelancer.id %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-2"></i>Sim, Excluir
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

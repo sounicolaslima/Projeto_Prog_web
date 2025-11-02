@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastrar Escala - Gestão de Freelancers{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card card-custom">
+            <div class="card-header bg-primary text-white">
+                <h4 class="card-title mb-0">
+                    <i class="bi bi-calendar-plus me-2"></i>Cadastrar Escala
+                </h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="row g-4">
+                        <!-- Freelancer -->
+                        <div class="col-md-12">
+                            <label class="form-label fw-bold">
+                                <i class="bi bi-person me-2"></i>Freelancer
+                            </label>
+                            <select name="freelancer" class="form-select form-select-lg" required>
+                                <option value="" selected disabled>Selecione um freelancer</option>
+                                {% for f in freelancers %}
+                                <option value="{{ f.id }}" data-valor-hora="{{ f.valor_hora }}">
+                                    {{ f.nome }} - R$ {{ f.valor_hora }}/hora
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <div class="form-text">Selecione o freelancer para a escala</div>
+                        </div>
+
+                        <!-- Data -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">
+                                <i class="bi bi-calendar-date me-2"></i>Data
+                            </label>
+                            <input type="date" name="data" class="form-control form-control-lg" required>
+                            <div class="form-text">Data da escala</div>
+                        </div>
+
+                        <!-- Horários -->
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold">
+                                <i class="bi bi-clock me-2"></i>Horário Início
+                            </label>
+                            <input type="time" name="horario_inicio" class="form-control form-control-lg" required>
+                            <div class="form-text">Hora de início</div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold">
+                                <i class="bi bi-clock-fill me-2"></i>Horário Fim
+                            </label>
+                            <input type="time" name="horario_fim" class="form-control form-control-lg" required>
+                            <div class="form-text">Hora de término</div>
+                        </div>
+
+                        <!-- Resumo da Escala -->
+                        <div class="col-12">
+                            <div class="card bg-light border-0">
+                                <div class="card-body">
+                                    <h6 class="fw-bold mb-3">
+                                        <i class="bi bi-graph-up me-2"></i>Resumo da Escala
+                                    </h6>
+                                    <div class="row text-center">
+                                        <div class="col-md-4">
+                                            <small class="text-muted">Duração Total</small>
+                                            <p class="fw-bold text-primary mb-0" id="duracaoTotal">-</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <small class="text-muted">Valor por Hora</small>
+                                            <p class="fw-bold text-success mb-0" id="valorHora">-</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <small class="text-muted">Valor Total</small>
+                                            <p class="fw-bold text-warning mb-0" id="valorTotal">-</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Informações Adicionais -->
+                        <div class="col-12">
+                            <div class="alert alert-info border-0">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-info-circle fs-4 me-3"></i>
+                                    <div>
+                                        <strong>Importante:</strong> A escala será usada para calcular 
+                                        automaticamente os pagamentos baseados nos registros de ponto.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botões -->
+                    <div class="row mt-4 pt-3 border-top">
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-success btn-custom w-100 py-3">
+                                <i class="bi bi-check-circle me-2"></i>Cadastrar Escala
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{% url 'listar_escalas' %}" class="btn btn-outline-secondary btn-custom w-100 py-3">
+                                <i class="bi bi-arrow-left me-2"></i>Voltar para Lista
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Calendário Preview -->
+        <div class="card card-custom mt-4">
+            <div class="card-body">
+                <h6 class="fw-bold mb-3">
+                    <i class="bi bi-calendar-week me-2"></i>Próximas Escalas
+                </h6>
+                <div class="row">
+                    {% for escala in proximas_escalas|slice:":3" %}
+                    <div class="col-md-4 mb-3">
+                        <div class="border rounded p-3">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <strong class="text-primary">{{ escala.freelancer.nome }}</strong>
+                                <small class="badge bg-info">{{ escala.data }}</small>
+                            </div>
+                            <small class="text-muted">
+                                <i class="bi bi-clock me-1"></i>
+                                {{ escala.horario_inicio }} - {{ escala.horario_fim }}
+                            </small>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12 text-center py-3">
+                        <i class="bi bi-calendar-x text-muted fs-1 mb-2"></i>
+                        <p class="text-muted mb-0">Nenhuma escala futura cadastrada</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control-lg, .form-select-lg {
+        padding: 12px 16px;
+        font-size: 1rem;
+        border: 2px solid #e9ecef;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control-lg:focus, .form-select-lg:focus {
+        border-color: #4361ee;
+        box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.25);
+    }
+</style>
+
+<script>
+    // Cálculo automático de duração e valor
+    function calcularEscala() {
+        const inicio = document.querySelector('input[name="horario_inicio"]').value;
+        const fim = document.querySelector('input[name="horario_fim"]').value;
+        const selectFreelancer = document.querySelector('select[name="freelancer"]');
+        const valorHora = selectFreelancer.selectedOptions[0]?.dataset.valorHora;
+
+        if (inicio && fim && valorHora) {
+            // Calcular duração
+            const [hInicio, mInicio] = inicio.split(':').map(Number);
+            const [hFim, mFim] = fim.split(':').map(Number);
+            
+            let totalMinutos = (hFim * 60 + mFim) - (hInicio * 60 + mInicio);
+            
+            if (totalMinutos < 0) {
+                totalMinutos += 24 * 60; // Se passar da meia-noite
+            }
+            
+            const horas = Math.floor(totalMinutos / 60);
+            const minutos = totalMinutos % 60;
+            
+            // Calcular valor
+            const valorTotal = (totalMinutos / 60) * parseFloat(valorHora);
+            
+            // Atualizar interface
+            document.getElementById('duracaoTotal').textContent = 
+                `${horas}h ${minutos.toString().padStart(2, '0')}min`;
+            document.getElementById('valorHora').textContent = `R$ ${parseFloat(valorHora).toFixed(2)}`;
+            document.getElementById('valorTotal').textContent = 
+                `R$ ${valorTotal.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+        } else {
+            document.getElementById('duracaoTotal').textContent = '-';
+            document.getElementById('valorHora').textContent = '-';
+            document.getElementById('valorTotal').textContent = '-';
+        }
+    }
+
+    // Event listeners
+    document.querySelector('select[name="freelancer"]').addEventListener('change', calcularEscala);
+    document.querySelector('input[name="horario_inicio"]').addEventListener('change', calcularEscala);
+    document.querySelector('input[name="horario_fim"]').addEventListener('change', calcularEscala);
+</script>
+{% endblock %}

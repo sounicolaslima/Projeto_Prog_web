@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block title %}Meus Pontos - {{ freelancer.nome }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 fw-bold text-dark">
+                    <i class="bi bi-clock me-2"></i>Meus Registros de Ponto
+                </h1>
+                <p class="text-muted">Controle de ponto de {{ freelancer.nome }}</p>
+            </div>
+            <a href="{% url 'dashboard_freelancer' %}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2"></i>Voltar ao Dashboard
+            </a>
+        </div>
+
+        <!-- Status do Ponto Atual -->
+        <div class="card card-custom mb-4">
+            <div class="card-body text-center">
+                <h4 class="fw-bold mb-3">
+                    {% if registro_andamento %}
+                    <i class="bi bi-play-circle text-danger me-2"></i>
+                    <span class="text-danger">Ponto em Andamento</span>
+                    {% else %}
+                    <i class="bi bi-stop-circle text-success me-2"></i>
+                    <span class="text-success">Ponto Parado</span>
+                    {% endif %}
+                </h4>
+                
+                {% if registro_andamento %}
+                <p class="text-muted mb-3">
+                    Entrada registrada em: <strong>{{ registro_andamento.data_entrada|date:"d/m/Y H:i" }}</strong>
+                </p>
+                {% endif %}
+
+                <div class="d-flex justify-content-center gap-3">
+                    {% if registro_andamento %}
+                    <form method="POST" class="d-inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="acao" value="saida">
+                        <button type="submit" class="btn btn-danger btn-lg px-4">
+                            <i class="bi bi-stop-circle me-2"></i>Registrar Saída
+                        </button>
+                    </form>
+                    {% else %}
+                    <form method="POST" class="d-inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="acao" value="entrada">
+                        <button type="submit" class="btn btn-success btn-lg px-4">
+                            <i class="bi bi-play-circle me-2"></i>Registrar Entrada
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Histórico de Registros -->
+        <div class="card card-custom">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-clock-history me-2"></i>Histórico de Registros
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                {% if registros %}
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">Data</th>
+                                <th>Entrada</th>
+                                <th>Saída</th>
+                                <th>Duração</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for registro in registros %}
+                            <tr>
+                                <td class="ps-4">
+                                    <strong>{{ registro.data_entrada|date:"d/m/Y" }}</strong>
+                                </td>
+                                <td>
+                                    {{ registro.data_entrada|time:"H:i" }}
+                                </td>
+                                <td>
+                                    {% if registro.data_saida %}
+                                        {{ registro.data_saida|time:"H:i" }}
+                                    {% else %}
+                                        <span class="text-warning">---</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if registro.data_saida %}
+                                        <span class="fw-bold text-info">{{ registro.duracao }}</span>
+                                    {% else %}
+                                        <span class="text-warning">Em andamento</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if registro.data_saida %}
+                                    <span class="badge bg-success">Concluído</span>
+                                    {% else %}
+                                    <span class="badge bg-warning">Em andamento</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-clock-history text-muted fs-1 mb-3"></i>
+                    <h5 class="text-muted">Nenhum registro de ponto encontrado</h5>
+                    <p class="text-muted">Registre sua primeira entrada para começar</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
