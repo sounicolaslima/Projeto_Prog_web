@@ -3,25 +3,35 @@
 {% block title %}Cadastrar Escala - Gestão de Freelancers{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-lg-8">
-        <div class="card card-custom">
-            <div class="card-header bg-primary text-white">
-                <h4 class="card-title mb-0">
-                    <i class="bi bi-calendar-plus me-2"></i>Cadastrar Escala
+
+<div class="flex justify-center">
+    <div class="w-full max-w-4xl">
+
+        <!-- Card principal -->
+        <div class="bg-white shadow-lg rounded-xl border border-gray-200">
+            <div class="bg-blue-600 text-white px-6 py-4 rounded-t-xl">
+                <h4 class="text-xl font-semibold flex items-center gap-2">
+                    <span class="text-2xl">📅</span> Cadastrar Escala
                 </h4>
             </div>
-            <div class="card-body p-4">
-                <form method="post">
+
+            <div class="p-6">
+
+                <form method="post" class="space-y-6">
                     {% csrf_token %}
-                    
-                    <div class="row g-4">
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
                         <!-- Freelancer -->
-                        <div class="col-md-12">
-                            <label class="form-label fw-bold">
-                                <i class="bi bi-person me-2"></i>Freelancer
+                        <div class="md:col-span-2">
+                            <label class="block font-semibold mb-1">
+                                 Freelancer
                             </label>
-                            <select name="freelancer" class="form-select form-select-lg" required>
+                            <select 
+                                name="freelancer" 
+                                required
+                                class="w-full border-2 border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                
                                 <option value="" selected disabled>Selecione um freelancer</option>
                                 {% for f in freelancers %}
                                 <option value="{{ f.id }}" data-valor-hora="{{ f.valor_hora }}">
@@ -29,139 +39,136 @@
                                 </option>
                                 {% endfor %}
                             </select>
-                            <div class="form-text">Selecione o freelancer para a escala</div>
+                            <p class="text-sm text-gray-500 mt-1">Selecione o freelancer para a escala</p>
                         </div>
 
                         <!-- Data -->
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">
-                                <i class="bi bi-calendar-date me-2"></i>Data
+                        <div>
+                            <label class="block font-semibold mb-1">
+                                 Data
                             </label>
-                            <input type="date" name="data" class="form-control form-control-lg" required>
-                            <div class="form-text">Data da escala</div>
+                            <input 
+                                type="date" 
+                                name="data" 
+                                required
+                                class="w-full border-2 border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <p class="text-sm text-gray-500 mt-1">Data da escala</p>
                         </div>
 
-                        <!-- Horários -->
-                        <div class="col-md-3">
-                            <label class="form-label fw-bold">
-                                <i class="bi bi-clock me-2"></i>Horário Início
+                        <!-- Horário início -->
+                        <div>
+                            <label class="block font-semibold mb-1">
+                                 Horário Início
                             </label>
-                            <input type="time" name="horario_inicio" class="form-control form-control-lg" required>
-                            <div class="form-text">Hora de início</div>
+                            <input 
+                                type="time" 
+                                name="horario_inicio" 
+                                required
+                                class="w-full border-2 border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <p class="text-sm text-gray-500 mt-1">Hora de início</p>
                         </div>
 
-                        <div class="col-md-3">
-                            <label class="form-label fw-bold">
-                                <i class="bi bi-clock-fill me-2"></i>Horário Fim
+                        <!-- Horário fim -->
+                        <div>
+                            <label class="block font-semibold mb-1">
+                                 Horário Fim
                             </label>
-                            <input type="time" name="horario_fim" class="form-control form-control-lg" required>
-                            <div class="form-text">Hora de término</div>
+                            <input 
+                                type="time" 
+                                name="horario_fim" 
+                                required
+                                class="w-full border-2 border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <p class="text-sm text-gray-500 mt-1">Hora de término</p>
                         </div>
 
-                        <!-- Resumo da Escala -->
-                        <div class="col-12">
-                            <div class="card bg-light border-0">
-                                <div class="card-body">
-                                    <h6 class="fw-bold mb-3">
-                                        <i class="bi bi-graph-up me-2"></i>Resumo da Escala
-                                    </h6>
-                                    <div class="row text-center">
-                                        <div class="col-md-4">
-                                            <small class="text-muted">Duração Total</small>
-                                            <p class="fw-bold text-primary mb-0" id="duracaoTotal">-</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <small class="text-muted">Valor por Hora</small>
-                                            <p class="fw-bold text-success mb-0" id="valorHora">-</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <small class="text-muted">Valor Total</small>
-                                            <p class="fw-bold text-warning mb-0" id="valorTotal">-</p>
-                                        </div>
+                        <!-- Resumo -->
+                        <div class="md:col-span-2">
+                            <div class="bg-gray-100 rounded-lg p-4">
+                                <h6 class="font-semibold mb-3 flex items-center gap-1">
+                                     Resumo da Escala
+                                </h6>
+
+                                <div class="grid grid-cols-1 md:grid-cols-3 text-center gap-4">
+                                    <div>
+                                        <p class="text-sm text-gray-500">Duração Total</p>
+                                        <p class="text-lg font-bold text-blue-600" id="duracaoTotal">-</p>
+                                    </div>
+
+                                    <div>
+                                        <p class="text-sm text-gray-500">Valor por Hora</p>
+                                        <p class="text-lg font-bold text-green-600" id="valorHora">-</p>
+                                    </div>
+
+                                    <div>
+                                        <p class="text-sm text-gray-500">Valor Total</p>
+                                        <p class="text-lg font-bold text-yellow-600" id="valorTotal">-</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Informações Adicionais -->
-                        <div class="col-12">
-                            <div class="alert alert-info border-0">
-                                <div class="d-flex align-items-center">
-                                    <i class="bi bi-info-circle fs-4 me-3"></i>
-                                    <div>
-                                        <strong>Importante:</strong> A escala será usada para calcular 
-                                        automaticamente os pagamentos baseados nos registros de ponto.
-                                    </div>
-                                </div>
+                        <!-- Informações adicionais -->
+                        <div class="md:col-span-2">
+                            <div class="bg-blue-100 text-blue-800 rounded-lg p-4 flex gap-3">
+                                <span class="text-xl">ℹ️</span>
+                                <p>
+                                    <strong>Importante:</strong> A escala será usada para calcular automaticamente os pagamentos
+                                    baseados nos registros de ponto.
+                                </p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Botões -->
-                    <div class="row mt-4 pt-3 border-top">
-                        <div class="col-md-6">
-                            <button type="submit" class="btn btn-success btn-custom w-100 py-3">
-                                <i class="bi bi-check-circle me-2"></i>Cadastrar Escala
-                            </button>
-                        </div>
-                        <div class="col-md-6">
-                            <a href="{% url 'listar_escalas' %}" class="btn btn-outline-secondary btn-custom w-100 py-3">
-                                <i class="bi bi-arrow-left me-2"></i>Voltar para Lista
-                            </a>
-                        </div>
+                    <div class="border-t pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <button type="submit"
+                            class="bg-green-600 text-white p-3 rounded-lg text-lg font-semibold hover:bg-green-700 transition w-full">
+                             Cadastrar Escala
+                        </button>
+
+                        <a href="{% url 'listar_escalas' %}"
+                            class="border border-gray-400 text-gray-700 p-3 rounded-lg text-lg font-semibold hover:bg-gray-100 transition w-full text-center">
+                            ← Voltar para Lista
+                        </a>
                     </div>
                 </form>
             </div>
         </div>
 
         <!-- Calendário Preview -->
-        <div class="card card-custom mt-4">
-            <div class="card-body">
-                <h6 class="fw-bold mb-3">
-                    <i class="bi bi-calendar-week me-2"></i>Próximas Escalas
-                </h6>
-                <div class="row">
-                    {% for escala in proximas_escalas|slice:":3" %}
-                    <div class="col-md-4 mb-3">
-                        <div class="border rounded p-3">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <strong class="text-primary">{{ escala.freelancer.nome }}</strong>
-                                <small class="badge bg-info">{{ escala.data }}</small>
-                            </div>
-                            <small class="text-muted">
-                                <i class="bi bi-clock me-1"></i>
-                                {{ escala.horario_inicio }} - {{ escala.horario_fim }}
-                            </small>
-                        </div>
+        <div class="bg-white shadow-md rounded-xl border border-gray-200 mt-6 p-6">
+            <h6 class="font-semibold mb-4 flex items-center gap-2">
+                 Próximas Escalas
+            </h6>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                {% for escala in proximas_escalas|slice:":3" %}
+                <div class="border rounded-lg p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <strong class="text-blue-600">{{ escala.freelancer.nome }}</strong>
+                        <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">{{ escala.data }}</span>
                     </div>
-                    {% empty %}
-                    <div class="col-12 text-center py-3">
-                        <i class="bi bi-calendar-x text-muted fs-1 mb-2"></i>
-                        <p class="text-muted mb-0">Nenhuma escala futura cadastrada</p>
-                    </div>
-                    {% endfor %}
+                    <p class="text-sm text-gray-600">
+                         {{ escala.horario_inicio }} - {{ escala.horario_fim }}
+                    </p>
                 </div>
+
+                {% empty %}
+                <div class="col-span-3 text-center py-6">
+                    <div class="text-gray-400 text-5xl mb-2">📭</div>
+                    <p class="text-gray-500">Nenhuma escala futura cadastrada</p>
+                </div>
+                {% endfor %}
             </div>
         </div>
+
     </div>
 </div>
 
-<style>
-    .form-control-lg, .form-select-lg {
-        padding: 12px 16px;
-        font-size: 1rem;
-        border: 2px solid #e9ecef;
-        transition: all 0.3s ease;
-    }
-    
-    .form-control-lg:focus, .form-select-lg:focus {
-        border-color: #4361ee;
-        box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.25);
-    }
-</style>
 
+<!-- SCRIPT DE CÁLCULO (permanece igual) -->
 <script>
-    // Cálculo automático de duração e valor
     function calcularEscala() {
         const inicio = document.querySelector('input[name="horario_inicio"]').value;
         const fim = document.querySelector('input[name="horario_fim"]').value;
@@ -169,28 +176,25 @@
         const valorHora = selectFreelancer.selectedOptions[0]?.dataset.valorHora;
 
         if (inicio && fim && valorHora) {
-            // Calcular duração
             const [hInicio, mInicio] = inicio.split(':').map(Number);
             const [hFim, mFim] = fim.split(':').map(Number);
-            
+
             let totalMinutos = (hFim * 60 + mFim) - (hInicio * 60 + mInicio);
-            
-            if (totalMinutos < 0) {
-                totalMinutos += 24 * 60; // Se passar da meia-noite
-            }
-            
+            if (totalMinutos < 0) totalMinutos += 1440;
+
             const horas = Math.floor(totalMinutos / 60);
             const minutos = totalMinutos % 60;
-            
-            // Calcular valor
+
             const valorTotal = (totalMinutos / 60) * parseFloat(valorHora);
-            
-            // Atualizar interface
-            document.getElementById('duracaoTotal').textContent = 
+
+            document.getElementById('duracaoTotal').textContent =
                 `${horas}h ${minutos.toString().padStart(2, '0')}min`;
-            document.getElementById('valorHora').textContent = `R$ ${parseFloat(valorHora).toFixed(2)}`;
-            document.getElementById('valorTotal').textContent = 
-                `R$ ${valorTotal.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+
+            document.getElementById('valorHora').textContent =
+                `R$ ${parseFloat(valorHora).toFixed(2)}`;
+
+            document.getElementById('valorTotal').textContent =
+                `R$ ${valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
         } else {
             document.getElementById('duracaoTotal').textContent = '-';
             document.getElementById('valorHora').textContent = '-';
@@ -198,9 +202,9 @@
         }
     }
 
-    // Event listeners
     document.querySelector('select[name="freelancer"]').addEventListener('change', calcularEscala);
     document.querySelector('input[name="horario_inicio"]').addEventListener('change', calcularEscala);
     document.querySelector('input[name="horario_fim"]').addEventListener('change', calcularEscala);
 </script>
+
 {% endblock %}

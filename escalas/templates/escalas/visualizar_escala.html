@@ -3,85 +3,137 @@
 {% block title %}Detalhes da Escala - {{ escala.freelancer.nome }}{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-lg-8">
-        <div class="card card-custom">
-            <div class="card-header bg-primary text-white">
-                <h4 class="card-title mb-0">
-                    <i class="bi bi-calendar-event me-2"></i>Detalhes da Escala
+<div class="flex justify-center">
+    <div class="w-full max-w-4xl">
+        <div class="bg-white shadow-lg rounded-xl overflow-hidden">
+            
+            <!-- Header -->
+            <div class="bg-blue-600 text-white p-4">
+                <h4 class="text-xl font-semibold flex items-center gap-2">
+                    <i class="bi bi-calendar-event text-2xl"></i>
+                    Detalhes da Escala
                 </h4>
             </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6 text-center mb-4">
-                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex p-4 mb-3">
-                            <i class="bi bi-person-fill text-primary fs-1"></i>
+
+            <!-- Body -->
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                    <!-- Freelancer Info -->
+                    <div class="text-center">
+                        <div class="bg-blue-100 rounded-full inline-flex p-6 mb-4">
+                            <i class="bi bi-person-fill text-blue-600 text-5xl"></i>
                         </div>
-                        <h3 class="text-primary fw-bold">{{ escala.freelancer.nome }}</h3>
-                        <span class="badge {% if escala.status == 'Concluída' %}bg-success{% elif escala.status == 'Em Andamento' %}bg-warning{% else %}bg-info{% endif %} status-badge">
+
+                        <h3 class="text-blue-600 font-bold text-2xl">{{ escala.freelancer.nome }}</h3>
+
+                        <!-- Status Badge -->
+                        <span class="
+                            px-3 py-1 rounded-full text-sm font-semibold text-white
+                            {% if escala.status == 'Concluída' %}
+                                bg-green-600
+                            {% elif escala.status == 'Em Andamento' %}
+                                bg-yellow-500
+                            {% else %}
+                                bg-blue-500
+                            {% endif %}
+                        ">
                             {{ escala.status }}
                         </span>
                     </div>
-                    
-                    <div class="col-md-6">
-                        <div class="card bg-light border-0">
-                            <div class="card-body text-center">
-                                <h2 class="text-success fw-bold">{{ escala.duracao }}h</h2>
-                                <p class="text-muted mb-0">Duração Total</p>
-                                <hr>
-                                <p class="mb-1"><strong>Valor/Hora:</strong> R$ {{ escala.freelancer.valor_hora }}</p>
-                                <p class="mb-0"><strong>Valor Estimado:</strong> R$ {{ escala.valor_estimado|default:"0.00" }}</p>
-                            </div>
+
+                    <!-- Duração / Valor -->
+                    <div>
+                        <div class="bg-gray-100 rounded-xl p-6 text-center shadow-sm">
+                            <h2 class="text-green-600 font-bold text-4xl">{{ escala.duracao }}h</h2>
+                            <p class="text-gray-500">Duração Total</p>
+
+                            <div class="my-4 border-t"></div>
+
+                            <p class="text-gray-700">
+                                <strong>Valor/Hora:</strong> R$ {{ escala.freelancer.valor_hora }}
+                            </p>
+                            <p class="text-gray-700">
+                                <strong>Valor Estimado:</strong> R$ {{ escala.valor_estimado|default:"0.00" }}
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="row mt-4">
-                    <div class="col-md-6">
-                        <h5 class="fw-bold border-bottom pb-2">
-                            <i class="bi bi-calendar me-2"></i>Data e Horário
+                <!-- Details -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+                    
+                    <!-- Data e horário -->
+                    <div>
+                        <h5 class="font-bold text-lg border-b pb-2 flex items-center gap-2">
+                            <i class="bi bi-calendar text-xl"></i>
+                            Data e Horário
                         </h5>
-                        <div class="mb-3">
+
+                        <div class="mt-3">
                             <strong>Data:</strong>
-                            <p class="text-dark">{{ escala.data|date:"d/m/Y" }} ({{ escala.data|date:"l" }})</p>
+                            <p class="text-gray-700">
+                                {{ escala.data|date:"d/m/Y" }} ({{ escala.data|date:"l" }})
+                            </p>
                         </div>
-                        <div class="mb-3">
+
+                        <div class="mt-3">
                             <strong>Horário:</strong>
-                            <p class="text-dark">{{ escala.horario_inicio|time:"H:i" }} - {{ escala.horario_fim|time:"H:i" }}</p>
+                            <p class="text-gray-700">
+                                {{ escala.horario_inicio|time:"H:i" }} - {{ escala.horario_fim|time:"H:i" }}
+                            </p>
                         </div>
                     </div>
-                    
-                    <div class="col-md-6">
-                        <h5 class="fw-bold border-bottom pb-2">
-                            <i class="bi bi-info-circle me-2"></i>Informações
+
+                    <!-- Informações -->
+                    <div>
+                        <h5 class="font-bold text-lg border-b pb-2 flex items-center gap-2">
+                            <i class="bi bi-info-circle text-xl"></i>
+                            Informações
                         </h5>
-                        <div class="mb-3">
+
+                        <div class="mt-3">
                             <strong>Freelancer:</strong>
-                            <p class="text-dark">{{ escala.freelancer.nome }}</p>
+                            <p class="text-gray-700">{{ escala.freelancer.nome }}</p>
                         </div>
-                        <div class="mb-3">
+
+                        <div class="mt-3">
                             <strong>Contato:</strong>
-                            <p class="text-dark">{{ escala.freelancer.contato }}</p>
+                            <p class="text-gray-700">{{ escala.freelancer.contato }}</p>
                         </div>
-                        <div class="mb-3">
+
+                        <div class="mt-3">
                             <strong>Status:</strong>
-                            <span class="badge {% if escala.status == 'Concluída' %}bg-success{% elif escala.status == 'Em Andamento' %}bg-warning{% else %}bg-info{% endif %}">
+                            <span class="
+                                px-3 py-1 rounded-full text-sm font-semibold text-white
+                                {% if escala.status == 'Concluída' %}
+                                    bg-green-600
+                                {% elif escala.status == 'Em Andamento' %}
+                                    bg-yellow-500
+                                {% else %}
+                                    bg-blue-500
+                                {% endif %}
+                            ">
                                 {{ escala.status }}
                             </span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card-footer bg-transparent">
-                <div class="d-flex gap-2">
-                    <a href="{% url 'editar_escala' escala.id %}" class="btn btn-warning btn-custom">
-                        <i class="bi bi-pencil me-2"></i>Editar
-                    </a>
-                    <a href="{% url 'listar_escalas' %}" class="btn btn-secondary btn-custom ms-auto">
-                        <i class="bi bi-arrow-left me-2"></i>Voltar para Lista
-                    </a>
-                </div>
+
+            <!-- Footer -->
+            <div class="p-4 bg-gray-50 border-t flex gap-3">
+                <a href="{% url 'editar_escala' escala.id %}" 
+                   class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2">
+                    <i class="bi bi-pencil"></i> Editar
+                </a>
+
+                <a href="{% url 'listar_escalas' %}" 
+                   class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2 ml-auto">
+                    <i class="bi bi-arrow-left"></i> Voltar para Lista
+                </a>
             </div>
+
         </div>
     </div>
 </div>

@@ -3,281 +3,262 @@
 {% block title %}Escalas - Gestão de Freelancers{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-12">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h1 class="h3 fw-bold text-dark">
-                    <i class="bi bi-calendar-event me-2"></i>Escalas
-                </h1>
-                <p class="text-muted">Gestão de escalas e horários dos freelancers</p>
-            </div>
-            <a href="{% url 'cadastrar_escala' %}" class="btn btn-primary btn-custom">
-                <i class="bi bi-plus-circle me-2"></i>Cadastrar Escala
-            </a>
+<div class="w-full">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800">Escalas</h1>
+            <p class="text-gray-500">Gestão de escalas e horários dos freelancers</p>
+        </div>
+        <a href="{% url 'cadastrar_escala' %}"
+           class="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">
+            Cadastrar Escala
+        </a>
+    </div>
+
+    <!-- Cards Resumo -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+
+        <div class="bg-blue-50 border border-blue-300 rounded-xl p-4 text-center">
+            <div class="text-blue-700 text-3xl font-bold">{{ total_escalas }}</div>
+            <p class="text-gray-600 text-sm">Total Geral</p>
         </div>
 
-        <!-- Cards de Resumo -->
-        <div class="row mb-4">
-            <div class="col-md-3">
-                <div class="card card-custom bg-primary bg-opacity-10 border-primary">
-                    <div class="card-body text-center">
-                        <i class="bi bi-calendar-check text-primary fs-1 mb-2"></i>
-                        <h4 class="text-primary fw-bold">{{ total_escalas }}</h4>
-                        <p class="text-muted mb-0">Total Geral</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card card-custom bg-success bg-opacity-10 border-success">
-                    <div class="card-body text-center">
-                        <i class="bi bi-calendar-day text-success fs-1 mb-2"></i>
-                        <h4 class="text-success fw-bold">{{ escalas_hoje }}</h4>
-                        <p class="text-muted mb-0">Hoje</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card card-custom bg-warning bg-opacity-10 border-warning">
-                    <div class="card-body text-center">
-                        <i class="bi bi-calendar-week text-warning fs-1 mb-2"></i>
-                        <h4 class="text-warning fw-bold">{{ escalas_semana }}</h4>
-                        <p class="text-muted mb-0">Esta Semana</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card card-custom bg-info bg-opacity-10 border-info">
-                    <div class="card-body text-center">
-                        <i class="bi bi-calendar-month text-info fs-1 mb-2"></i>
-                        <h4 class="text-info fw-bold">{{ escalas_mes }}</h4>
-                        <p class="text-muted mb-0">Este Mês</p>
-                    </div>
-                </div>
-            </div>
+        <div class="bg-green-50 border border-green-300 rounded-xl p-4 text-center">
+            <div class="text-green-700 text-3xl font-bold">{{ escalas_hoje }}</div>
+            <p class="text-gray-600 text-sm">Hoje</p>
         </div>
 
-        <!-- Filtros -->
-        <div class="card card-custom mb-4">
-            <div class="card-body">
-                <h6 class="fw-bold mb-3">
-                    <i class="bi bi-funnel me-2"></i>Filtrar Escalas
-                </h6>
-                <form method="GET" class="row g-3">
-                    <div class="col-md-3">
-                        <select name="freelancer" class="form-select">
-                            <option value="">Todos os Freelancers</option>
-                            {% for f in freelancers %}
-                            <option value="{{ f.id }}" {% if freelancer_filter == f.id|stringformat:"s" %}selected{% endif %}>
-                                {{ f.nome }}
-                            </option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <select name="status" class="form-select">
-                            <option value="">Todos os Status</option>
-                            <option value="Agendada" {% if status_filter == 'Agendada' %}selected{% endif %}>Agendada</option>
-                            <option value="Em Andamento" {% if status_filter == 'Em Andamento' %}selected{% endif %}>Em Andamento</option>
-                            <option value="Concluída" {% if status_filter == 'Concluída' %}selected{% endif %}>Concluída</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <input type="date" name="data_inicio" class="form-control" value="{{ data_inicio }}" placeholder="Data inicial">
-                    </div>
-                    <div class="col-md-2">
-                        <input type="date" name="data_fim" class="form-control" value="{{ data_fim }}" placeholder="Data final">
-                    </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-outline-primary w-100">
-                            <i class="bi bi-funnel me-2"></i>Filtrar
-                        </button>
-                        <a href="{% url 'listar_escalas' %}" class="btn btn-outline-secondary w-100 mt-2">
-                            <i class="bi bi-arrow-clockwise me-2"></i>Limpar
-                        </a>
-                    </div>
-                </form>
-            </div>
+        <div class="bg-yellow-50 border border-yellow-300 rounded-xl p-4 text-center">
+            <div class="text-yellow-700 text-3xl font-bold">{{ escalas_semana }}</div>
+            <p class="text-gray-600 text-sm">Esta Semana</p>
         </div>
 
-        <div class="card card-custom">
-            <div class="card-header bg-primary text-white">
-                <h5 class="card-title mb-0">
-                    <i class="bi bi-list-ul me-2"></i>Lista de Escalas
-                    {% if freelancer_filter or status_filter or data_inicio or data_fim %}
-                    <small class="ms-2">(Filtrado)</small>
-                    {% endif %}
-                </h5>
-            </div>
-            <div class="card-body p-0">
-                {% if escalas %}
-                <div class="table-responsive">
-                    <table class="table table-hover table-custom mb-0">
-                        <thead>
-                            <tr>
-                                <th class="ps-4">Freelancer</th>
-                                <th>Data</th>
-                                <th>Horário</th>
-                                <th>Duração</th>
-                                <th>Status</th>
-                                <th class="text-center">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for e in escalas %}
-                            <tr>
-                                <td class="ps-4">
-                                    <div class="d-flex align-items-center">
-                                        <div class="bg-primary bg-opacity-10 rounded-circle p-2 me-3">
-                                            <i class="bi bi-person text-primary"></i>
-                                        </div>
-                                        <div>
-                                            <strong>{{ e.freelancer.nome }}</strong>
-                                            <br>
-                                            <small class="text-muted">{{ e.freelancer.contato }}</small>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <strong>{{ e.data|date:"d/m/Y" }}</strong>
-                                    <br>
-                                    <small class="text-muted">{{ e.data|date:"l" }}</small>
-                                </td>
-                                <td>
-                                    <span class="fw-bold text-success">{{ e.horario_inicio|time:"H:i" }}</span>
-                                    <br>
-                                    <span class="text-muted">às</span>
-                                    <br>
-                                    <span class="fw-bold text-danger">{{ e.horario_fim|time:"H:i" }}</span>
-                                </td>
-                                <td>
-                                    <span class="fw-bold text-primary">
-                                        {{ e.duracao }}h
-                                    </span>
-                                </td>
-                                <td>
-                                    {% if e.status == "Concluída" %}
-                                    <span class="badge bg-success status-badge">
-                                        <i class="bi bi-check-circle me-1"></i>{{ e.status }}
-                                    </span>
-                                    {% elif e.status == "Em Andamento" %}
-                                    <span class="badge bg-warning text-dark status-badge">
-                                        <i class="bi bi-clock me-1"></i>{{ e.status }}
-                                    </span>
-                                    {% else %}
-                                    <span class="badge bg-info status-badge">
-                                        <i class="bi bi-calendar me-1"></i>{{ e.status }}
-                                    </span>
-                                    {% endif %}
-                                </td>
-                                <td class="text-center">
-                                    <div class="btn-group">
-                                        <a href="{% url 'visualizar_escala' e.id %}" class="btn btn-sm btn-outline-primary" title="Visualizar">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-                                        <a href="{% url 'editar_escala' e.id %}" class="btn btn-sm btn-outline-warning" title="Editar">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-                                        <button type="button" class="btn btn-sm btn-outline-danger" 
-                                                title="Excluir" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#modalExcluir{{ e.id }}">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </div>
+        <div class="bg-cyan-50 border border-cyan-300 rounded-xl p-4 text-center">
+            <div class="text-cyan-700 text-3xl font-bold">{{ escalas_mes }}</div>
+            <p class="text-gray-600 text-sm">Este Mês</p>
+        </div>
+    </div>
 
-                                    <!-- Modal de Confirmação de Exclusão -->
-                                    <div class="modal fade" id="modalExcluir{{ e.id }}" tabindex="-1">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header bg-danger text-white">
-                                                    <h5 class="modal-title">
-                                                        <i class="bi bi-exclamation-triangle me-2"></i>
-                                                        Confirmar Exclusão
-                                                    </h5>
-                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p class="mb-3">Tem certeza que deseja excluir esta escala?</p>
-                                                    <div class="alert alert-warning">
-                                                        <strong>{{ e.freelancer.nome }}</strong><br>
-                                                        Data: {{ e.data|date:"d/m/Y" }}<br>
-                                                        Horário: {{ e.horario_inicio|time:"H:i" }} - {{ e.horario_fim|time:"H:i" }}<br>
-                                                        Duração: {{ e.duracao }} horas
-                                                    </div>
-                                                    <p class="text-danger fw-bold">
-                                                        <i class="bi bi-exclamation-circle me-1"></i>
-                                                        Esta ação não pode ser desfeita!
-                                                    </p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                        <i class="bi bi-x-circle me-1"></i>Cancelar
-                                                    </button>
-                                                    <form method="POST" action="{% url 'excluir_escala' e.id %}" class="d-inline">
-                                                        {% csrf_token %}
-                                                        <button type="submit" class="btn btn-danger">
-                                                            <i class="bi bi-trash me-1"></i>Excluir
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                {% else %}
-                <div class="text-center py-5">
-                    <div class="bg-light rounded-circle d-inline-flex p-4 mb-3">
-                        <i class="bi bi-calendar-x text-muted fs-1"></i>
-                    </div>
-                    <h5 class="text-muted">
-                        {% if freelancer_filter or status_filter or data_inicio or data_fim %}
-                        Nenhuma escala encontrada com os filtros aplicados
-                        {% else %}
-                        Nenhuma escala cadastrada
-                        {% endif %}
-                    </h5>
-                    <p class="text-muted mb-4">
-                        {% if freelancer_filter or status_filter or data_inicio or data_fim %}
-                        Tente ajustar os filtros ou <a href="{% url 'listar_escalas' %}">limpar todos os filtros</a>
-                        {% else %}
-                        Comece cadastrando a primeira escala
-                        {% endif %}
-                    </p>
-                    <a href="{% url 'cadastrar_escala' %}" class="btn btn-primary btn-custom">
-                        <i class="bi bi-plus-circle me-2"></i>Cadastrar Primeira Escala
-                    </a>
-                </div>
+    <!-- Filtros -->
+    <div class="bg-white shadow-md rounded-xl p-5 mb-6">
+        <h2 class="font-semibold text-gray-700 mb-4">Filtrar Escalas</h2>
+
+        <form method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4">
+
+            <select name="freelancer"
+                    class="border rounded-lg p-2 text-gray-700">
+                <option value="">Todos os freelancers</option>
+                {% for f in freelancers %}
+                <option value="{{ f.id }}" {% if freelancer_filter == f.id|stringformat:'s' %}selected{% endif %}>
+                    {{ f.nome }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <select name="status"
+                    class="border rounded-lg p-2 text-gray-700">
+                <option value="">Todos os status</option>
+                <option value="Agendada" {% if status_filter == "Agendada" %}selected{% endif %}>Agendada</option>
+                <option value="Em Andamento" {% if status_filter == "Em Andamento" %}selected{% endif %}>Em Andamento</option>
+                <option value="Concluída" {% if status_filter == "Concluída" %}selected{% endif %}>Concluída</option>
+            </select>
+
+            <input type="date" name="data_inicio" value="{{ data_inicio }}"
+                class="border rounded-lg p-2 text-gray-700">
+
+            <input type="date" name="data_fim" value="{{ data_fim }}"
+                class="border rounded-lg p-2 text-gray-700">
+
+            <div class="flex flex-col gap-2">
+                <button type="submit"
+                        class="px-4 py-2 border border-blue-600 text-blue-700 rounded-lg hover:bg-blue-100 transition">
+                    Filtrar
+                </button>
+                <a href="{% url 'listar_escalas' %}"
+                   class="px-4 py-2 border rounded-lg text-gray-600 hover:bg-gray-100 transition text-center">
+                    Limpar
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Lista -->
+    <div class="bg-white shadow-md rounded-xl">
+
+        <div class="border-b px-5 py-3 bg-blue-600 text-white rounded-t-xl">
+            <h3 class="font-semibold">
+                Lista de Escalas
+                {% if freelancer_filter or status_filter or data_inicio or data_fim %}
+                <span class="text-sm">(Filtrado)</span>
                 {% endif %}
-            </div>
+            </h3>
         </div>
 
-        <!-- Calendário Mini -->
-        <div class="card card-custom mt-4">
-            <div class="card-body">
-                <h6 class="fw-bold mb-3">
-                    <i class="bi bi-calendar3 me-2"></i>Próximos 7 Dias
-                </h6>
-                <div class="row">
-                    {% for dia in proximos_dias %}
-                    <div class="col-md-3 col-6 mb-3">
-                        <div class="border rounded p-3 text-center">
-                            <div class="fw-bold text-primary">{{ dia.data|date:"d/m" }}</div>
-                            <small class="text-muted d-block">{{ dia.data|date:"D" }}</small>
-                            <div class="mt-2">
-                                <span class="badge bg-primary">{{ dia.total_escalas }} escala(s)</span>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
+        <div class="p-0">
+            {% if escalas %}
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-gray-700">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="py-3 px-4">Freelancer</th>
+                            <th class="py-3 px-4">Data</th>
+                            <th class="py-3 px-4">Horário</th>
+                            <th class="py-3 px-4">Duração</th>
+                            <th class="py-3 px-4">Status</th>
+                            <th class="py-3 px-4 text-center">Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for e in escalas %}
+                        <tr class="border-b hover:bg-gray-50">
+
+                            <td class="py-3 px-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 flex items-center justify-center bg-blue-100 rounded-full text-blue-700 font-bold">
+                                        {{ e.freelancer.nome|first }}
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold">{{ e.freelancer.nome }}</div>
+                                        <div class="text-gray-500 text-sm">{{ e.freelancer.contato }}</div>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="py-3 px-4">
+                                <span class="font-semibold">{{ e.data|date:"d/m/Y" }}</span><br>
+                                <span class="text-gray-500 text-sm">{{ e.data|date:"l" }}</span>
+                            </td>
+
+                            <td class="py-3 px-4">
+                                <span class="text-green-600 font-semibold">{{ e.horario_inicio|time:"H:i" }}</span><br>
+                                <span class="text-gray-500 text-sm">às</span><br>
+                                <span class="text-red-600 font-semibold">{{ e.horario_fim|time:"H:i" }}</span>
+                            </td>
+
+                            <td class="py-3 px-4 font-semibold text-blue-600">
+                                {{ e.duracao }}h
+                            </td>
+
+                            <td class="py-3 px-4">
+                                {% if e.status == "Concluída" %}
+                                <span class="px-3 py-1 rounded-lg bg-green-100 text-green-700 text-sm">
+                                    {{ e.status }}
+                                </span>
+
+                                {% elif e.status == "Em Andamento" %}
+                                <span class="px-3 py-1 rounded-lg bg-yellow-100 text-yellow-700 text-sm">
+                                    {{ e.status }}
+                                </span>
+
+                                {% else %}
+                                <span class="px-3 py-1 rounded-lg bg-blue-100 text-blue-700 text-sm">
+                                    {{ e.status }}
+                                </span>
+                                {% endif %}
+                            </td>
+
+                            <!-- Ações -->
+                            <td class="py-3 px-4 text-center">
+
+                                <div class="flex justify-center gap-2">
+                                    <a href="{% url 'visualizar_escala' e.id %}"
+                                       class="px-3 py-1 text-sm border rounded-lg hover:bg-gray-100">
+                                        Ver
+                                    </a>
+
+                                    <a href="{% url 'editar_escala' e.id %}"
+                                       class="px-3 py-1 text-sm border rounded-lg hover:bg-yellow-100">
+                                        Editar
+                                    </a>
+
+                                    <button onclick="openModal('modal{{ e.id }}')"
+                                            class="px-3 py-1 text-sm border border-red-600 text-red-600 rounded-lg hover:bg-red-100">
+                                        Excluir
+                                    </button>
+                                </div>
+
+                                <!-- Modal Tailwind -->
+                                <div id="modal{{ e.id }}"
+                                     class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center">
+                                    <div class="bg-white w-full max-w-md rounded-xl shadow-lg p-6">
+
+                                        <h2 class="text-lg font-semibold text-red-600 mb-4">
+                                            Confirmar Exclusão
+                                        </h2>
+
+                                        <p class="text-gray-700 mb-3">Tem certeza que deseja excluir esta escala?</p>
+
+                                        <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mb-4">
+                                            <p class="font-semibold">{{ e.freelancer.nome }}</p>
+                                            <p>Data: {{ e.data|date:"d/m/Y" }}</p>
+                                            <p>Horário: {{ e.horario_inicio }} - {{ e.horario_fim }}</p>
+                                        </div>
+
+                                        <div class="flex justify-end gap-3">
+                                            <button onclick="closeModal('modal{{ e.id }}')"
+                                                    class="px-4 py-2 rounded-lg border hover:bg-gray-100">
+                                                Cancelar
+                                            </button>
+
+                                            <form method="POST" action="{% url 'excluir_escala' e.id %}">
+                                                {% csrf_token %}
+                                                <button class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                                                    Excluir
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
+
+            {% else %}
+            <div class="text-center py-10">
+                <p class="text-gray-600 text-lg">Nenhuma escala encontrada</p>
+                <a href="{% url 'cadastrar_escala' %}"
+                   class="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    Cadastrar primeira escala
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Próximos 7 dias -->
+    <div class="bg-white shadow-md rounded-xl mt-6 p-5">
+        <h2 class="font-semibold text-gray-700 mb-4">Próximos 7 Dias</h2>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+            {% for dia in proximos_dias %}
+            <div class="border rounded-lg p-3 text-center">
+                <div class="font-semibold text-blue-700">{{ dia.data|date:"d/m" }}</div>
+                <div class="text-gray-500 text-sm">{{ dia.data|date:"D" }}</div>
+                <span class="mt-2 inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-lg text-sm">
+                    {{ dia.total_escalas }} escala(s)
+                </span>
+            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
+
+<!-- JS para modal -->
+<script>
+function openModal(id) {
+    document.getElementById(id).classList.remove('hidden');
+    document.getElementById(id).classList.add('flex');
+}
+function closeModal(id) {
+    document.getElementById(id).classList.add('hidden');
+}
+</script>
+
 {% endblock %}
