@@ -3,158 +3,172 @@
 {% block title %}Registro de Ponto - {{ freelancer.nome }}{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-12">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h1 class="h3 fw-bold text-dark">
-                    <i class="bi bi-clock-history me-2"></i>Registro de Ponto
-                </h1>
-                <!-- Seletor de Freelancer -->
-                <div class="d-flex align-items-center gap-3 mt-2">
-                    <span class="fw-bold">Freelancer:</span>
-                    <select class="form-select" style="width: 250px;" onchange="mudarFreelancer(this.value)">
-                        {% for f in todos_freelancers %}
-                        <option value="{{ f.id }}" {% if f.id == freelancer.id %}selected{% endif %}>
-                            {{ f.nome }} - {{ f.cpf }}
-                        </option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="d-flex gap-2">
-                <a href="{% url 'registrar_ponto' freelancer.id %}" class="btn btn-primary btn-custom">
-                    <i class="bi bi-plus-circle me-2"></i>Registrar Ponto
-                </a>
-                <a href="{% url 'listar_freelancers' %}" class="btn btn-outline-secondary btn-custom">
-                    <i class="bi bi-arrow-left me-2"></i>Voltar
-                </a>
+<div class="space-y-6">
+    <!-- Cabeçalho -->
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div class="flex-1">
+            <h1 class="text-2xl lg:text-3xl font-bold text-gray-800 flex items-center">
+                <i class="bi bi-clock-history mr-3"></i>Registro de Ponto
+            </h1>
+            <!-- Seletor de Freelancer -->
+            <div class="flex items-center gap-3 mt-4">
+                <span class="font-semibold text-gray-700">Freelancer:</span>
+                <select class="w-64 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200" 
+                        onchange="mudarFreelancer(this.value)">
+                    {% for f in todos_freelancers %}
+                    <option value="{{ f.id }}" {% if f.id == freelancer.id %}selected{% endif %}>
+                        {{ f.nome }} - {{ f.cpf }}
+                    </option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
-
-        <!-- Cards de Resumo -->
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <div class="card card-custom bg-primary bg-opacity-10 border-primary">
-                    <div class="card-body text-center">
-                        <i class="bi bi-clock text-primary fs-1 mb-2"></i>
-                        <h4 class="text-primary fw-bold">{{ total_pontos }}</h4>
-                        <p class="text-muted mb-0">Total de Registros</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card card-custom bg-success bg-opacity-10 border-success">
-                    <div class="card-body text-center">
-                        <i class="bi bi-check-circle text-success fs-1 mb-2"></i>
-                        <h4 class="text-success fw-bold">{{ pontos_concluidos }}</h4>
-                        <p class="text-muted mb-0">Registros Concluídos</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card card-custom bg-warning bg-opacity-10 border-warning">
-                    <div class="card-body text-center">
-                        <i class="bi bi-clock-history text-warning fs-1 mb-2"></i>
-                        <h4 class="text-warning fw-bold">{{ pontos_andamento }}</h4>
-                        <p class="text-muted mb-0">Em Andamento</p>
-                    </div>
-                </div>
-            </div>
+        <div class="flex gap-3">
+            <a href="{% url 'registrar_ponto' freelancer.id %}" 
+               class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 flex items-center">
+                <i class="bi bi-plus-circle mr-2"></i>Registrar Ponto
+            </a>
+            <a href="{% url 'listar_freelancers' %}" 
+               class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition duration-200 flex items-center">
+                <i class="bi bi-arrow-left mr-2"></i>Voltar
+            </a>
         </div>
-
-        <div class="card card-custom">
-            <div class="card-header bg-primary text-white">
-                <h5 class="card-title mb-0">
-                    <i class="bi bi-list-check me-2"></i>Histórico de Pontos - {{ freelancer.nome }}
-                </h5>
-            </div>
-            <div class="card-body p-0">
-                {% if pontos %}
-                <div class="table-responsive">
-                    <table class="table table-hover table-custom mb-0">
-                        <thead>
-                            <tr>
-                                <th class="ps-4">Data/Hora Entrada</th>
-                                <th>Data/Hora Saída</th>
-                                <th class="text-center">Duração</th>
-                                <th class="text-center">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for ponto in pontos %}
-                            <tr>
-                                <td class="ps-4">
-                                    <div class="d-flex align-items-center">
-                                        <div class="bg-success bg-opacity-10 rounded p-2 me-3">
-                                            <i class="bi bi-box-arrow-in-right text-success"></i>
-                                        </div>
-                                        <div>
-                                            <strong>{{ ponto.data_entrada|date:"d/m/Y" }}</strong>
-                                            <br>
-                                            <small class="text-muted">{{ ponto.data_entrada|time:"H:i" }}</small>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    {% if ponto.data_saida %}
-                                    <div class="d-flex align-items-center">
-                                        <div class="bg-danger bg-opacity-10 rounded p-2 me-3">
-                                            <i class="bi bi-box-arrow-right text-danger"></i>
-                                        </div>
-                                        <div>
-                                            <strong>{{ ponto.data_saida|date:"d/m/Y" }}</strong>
-                                            <br>
-                                            <small class="text-muted">{{ ponto.data_saida|time:"H:i" }}</small>
-                                        </div>
-                                    </div>
-                                    {% else %}
-                                    <span class="text-muted">-</span>
-                                    {% endif %}
-                                </td>
-                                <td class="text-center">
-                                    <span class="fw-bold {% if ponto.data_saida %}text-success{% else %}text-warning{% endif %}">
-                                        {{ ponto.duracao }}
-                                    </span>
-                                </td>
-                                <td class="text-center">
-                                    {% if ponto.data_saida %}
-                                    <span class="badge bg-success status-badge">
-                                        <i class="bi bi-check-circle me-1"></i>Concluído
-                                    </span>
-                                    {% else %}
-                                    <span class="badge bg-warning status-badge">
-                                        <i class="bi bi-clock me-1"></i>Em Andamento
-                                    </span>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                {% else %}
-                <div class="text-center py-5">
-                    <div class="bg-light rounded-circle d-inline-flex p-4 mb-3">
-                        <i class="bi bi-clock text-muted fs-1"></i>
-                    </div>
-                    <h5 class="text-muted">Nenhum registro de ponto para {{ freelancer.nome }}</h5>
-                    <p class="text-muted mb-4">Comece registrando o primeiro ponto</p>
-                    <a href="{% url 'registrar_ponto' freelancer.id %}" class="btn btn-primary btn-custom">
-                        <i class="bi bi-plus-circle me-2"></i>Registrar Primeiro Ponto
-                    </a>
-                </div>
-                {% endif %}
-            </div>
-        </div>
-
-        {% if pontos_andamento > 0 %}
-        <div class="alert alert-warning mt-4">
-            <i class="bi bi-exclamation-triangle me-2"></i>
-            <strong>Atenção!</strong> {{ freelancer.nome }} tem {{ pontos_andamento }} registro(s) em andamento.
-        </div>
-        {% endif %}
     </div>
+
+    <!-- Cards de Resumo -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Total de Registros -->
+        <div class="bg-white rounded-2xl shadow-lg border border-blue-200 p-6 text-center">
+            <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <i class="bi bi-clock text-primary text-2xl"></i>
+            </div>
+            <h4 class="text-3xl font-bold text-primary mb-2">{{ total_pontos }}</h4>
+            <p class="text-gray-600">Total de Registros</p>
+        </div>
+
+        <!-- Registros Concluídos -->
+        <div class="bg-white rounded-2xl shadow-lg border border-green-200 p-6 text-center">
+            <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <i class="bi bi-check-circle text-green-600 text-2xl"></i>
+            </div>
+            <h4 class="text-3xl font-bold text-green-600 mb-2">{{ pontos_concluidos }}</h4>
+            <p class="text-gray-600">Registros Concluídos</p>
+        </div>
+
+        <!-- Em Andamento -->
+        <div class="bg-white rounded-2xl shadow-lg border border-yellow-200 p-6 text-center">
+            <div class="bg-yellow-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <i class="bi bi-clock-history text-yellow-600 text-2xl"></i>
+            </div>
+            <h4 class="text-3xl font-bold text-yellow-600 mb-2">{{ pontos_andamento }}</h4>
+            <p class="text-gray-600">Em Andamento</p>
+        </div>
+    </div>
+
+    <!-- Tabela de Histórico -->
+    <div class="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+        <!-- Cabeçalho da Tabela -->
+        <div class="bg-gradient-to-r from-primary to-secondary px-6 py-4">
+            <h5 class="text-white text-lg font-semibold flex items-center">
+                <i class="bi bi-list-check mr-3"></i>Histórico de Pontos - {{ freelancer.nome }}
+            </h5>
+        </div>
+
+        <!-- Corpo da Tabela -->
+        <div class="overflow-x-auto">
+            {% if pontos %}
+            <table class="w-full">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Data/Hora Entrada</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Data/Hora Saída</th>
+                        <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700">Duração</th>
+                        <th class="px-6 py-4 text-center text-sm font-semibold text-gray-700">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for ponto in pontos %}
+                    <tr class="hover:bg-gray-50 transition duration-150">
+                        <!-- Entrada -->
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <div class="bg-green-100 rounded-lg p-3 mr-4">
+                                    <i class="bi bi-box-arrow-in-right text-green-600"></i>
+                                </div>
+                                <div>
+                                    <strong class="text-gray-800 block">{{ ponto.data_entrada|date:"d/m/Y" }}</strong>
+                                    <small class="text-gray-500">{{ ponto.data_entrada|time:"H:i" }}</small>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- Saída -->
+                        <td class="px-6 py-4">
+                            {% if ponto.data_saida %}
+                            <div class="flex items-center">
+                                <div class="bg-red-100 rounded-lg p-3 mr-4">
+                                    <i class="bi bi-box-arrow-right text-red-600"></i>
+                                </div>
+                                <div>
+                                    <strong class="text-gray-800 block">{{ ponto.data_saida|date:"d/m/Y" }}</strong>
+                                    <small class="text-gray-500">{{ ponto.data_saida|time:"H:i" }}</small>
+                                </div>
+                            </div>
+                            {% else %}
+                            <span class="text-gray-400">-</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Duração -->
+                        <td class="px-6 py-4 text-center">
+                            <span class="font-semibold {% if ponto.data_saida %}text-green-600{% else %}text-yellow-600{% endif %}">
+                                {{ ponto.duracao }}
+                            </span>
+                        </td>
+
+                        <!-- Status -->
+                        <td class="px-6 py-4 text-center">
+                            {% if ponto.data_saida %}
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                <i class="bi bi-check-circle mr-1"></i>Concluído
+                            </span>
+                            {% else %}
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                                <i class="bi bi-clock mr-1"></i>Em Andamento
+                            </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <!-- Estado Vazio -->
+            <div class="text-center py-12">
+                <div class="bg-gray-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                    <i class="bi bi-clock text-gray-400 text-3xl"></i>
+                </div>
+                <h5 class="text-xl text-gray-500 mb-2">Nenhum registro de ponto para {{ freelancer.nome }}</h5>
+                <p class="text-gray-400 mb-6">Comece registrando o primeiro ponto</p>
+                <a href="{% url 'registrar_ponto' freelancer.id %}" 
+                   class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 inline-flex items-center">
+                    <i class="bi bi-plus-circle mr-2"></i>Registrar Primeiro Ponto
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Alerta de Registros em Andamento -->
+    {% if pontos_andamento > 0 %}
+    <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 flex items-center">
+        <i class="bi bi-exclamation-triangle text-yellow-600 text-xl mr-3"></i>
+        <div>
+            <strong class="text-yellow-800">Atenção!</strong>
+            <span class="text-yellow-700 ml-1">{{ freelancer.nome }} tem {{ pontos_andamento }} registro(s) em andamento.</span>
+        </div>
+    </div>
+    {% endif %}
 </div>
 
 <script>
