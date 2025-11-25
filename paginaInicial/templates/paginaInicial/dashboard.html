@@ -15,56 +15,64 @@
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
     <!-- Freelancers Card -->
-    <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 border border-gray-100">
-        <div class="p-6 text-center">
-            <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <i class="bi bi-people-fill text-primary text-2xl"></i>
+    <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 border border-gray-100 flex flex-col">
+        <div class="p-6 text-center flex flex-col justify-between h-full">
+            <div>
+                <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <i class="bi bi-people-fill text-primary text-2xl"></i>
+                </div>
+                <h5 class="text-lg font-semibold text-gray-800 mb-2">Freelancers</h5>
+                <p class="text-gray-600 mb-4">Gerencie todos os freelancers cadastrados</p>
             </div>
-            <h5 class="text-lg font-semibold text-gray-800 mb-2">Freelancers</h5>
-            <p class="text-gray-600 mb-4">Gerencie todos os freelancers cadastrados</p>
-            <a href="{% url 'listar_freelancers' %}" class="bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition duration-200 inline-flex items-center">
+            <a href="{% url 'listar_freelancers' %}" class="bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition duration-200 inline-flex items-center justify-center">
                 <i class="bi bi-arrow-right mr-2"></i>Acessar
             </a>
         </div>
     </div>
 
     <!-- Escalas Card -->
-    <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 border border-gray-100">
-        <div class="p-6 text-center">
-            <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <i class="bi bi-calendar-check text-green-600 text-2xl"></i>
+    <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 border border-gray-100 flex flex-col">
+        <div class="p-6 text-center flex flex-col justify-between h-full">
+            <div>
+                <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <i class="bi bi-calendar-check text-green-600 text-2xl"></i>
+                </div>
+                <h5 class="text-lg font-semibold text-gray-800 mb-2">Escalas</h5>
+                <p class="text-gray-600 mb-4">Controle de escalas e horários</p>
             </div>
-            <h5 class="text-lg font-semibold text-gray-800 mb-2">Escalas</h5>
-            <p class="text-gray-600 mb-4">Controle de escalas e horários</p>
-            <a href="{% url 'listar_escalas' %}" class="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-700 transition duration-200 inline-flex items-center">
+            <a href="{% url 'listar_escalas' %}" class="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-700 transition duration-200 inline-flex items-center justify-center">
                 <i class="bi bi-arrow-right mr-2"></i>Acessar
             </a>
         </div>
     </div>
 
     <!-- Pagamentos Card -->
-    <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 border border-gray-100">
-        <div class="p-6 text-center">
-            <div class="bg-yellow-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <i class="bi bi-currency-dollar text-yellow-600 text-2xl"></i>
+    <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 border border-gray-100 flex flex-col">
+        <div class="p-6 text-center flex flex-col justify-between h-full">
+            <div>
+                <div class="bg-yellow-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <i class="bi bi-currency-dollar text-yellow-600 text-2xl"></i>
+                </div>
+                <h5 class="text-lg font-semibold text-gray-800 mb-2">Pagamentos</h5>
+                <p class="text-gray-600 mb-4">Gestão financeira e pagamentos</p>
             </div>
-            <h5 class="text-lg font-semibold text-gray-800 mb-2">Pagamentos</h5>
-            <p class="text-gray-600 mb-4">Gestão financeira e pagamentos</p>
-            <a href="{% url 'listar_pagamentos' %}" class="bg-yellow-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-yellow-700 transition duration-200 inline-flex items-center">
+            <a href="{% url 'listar_pagamentos' %}" class="bg-yellow-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-yellow-700 transition duration-200 inline-flex items-center justify-center">
                 <i class="bi bi-arrow-right mr-2"></i>Acessar
             </a>
         </div>
     </div>
 
     <!-- Ponto Card -->
-    <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 border border-gray-100">
-        <div class="p-6 text-center">
-            <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <i class="bi bi-clock-history text-blue-500 text-2xl"></i>
+    <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 border border-gray-100 flex flex-col">
+        <div class="p-6 text-center flex flex-col justify-between h-full">
+            <div>
+                <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <i class="bi bi-clock-history text-blue-500 text-2xl"></i>
+                </div>
+                <h5 class="text-lg font-semibold text-gray-800 mb-2">Registro de Ponto</h5>
+                <p class="text-gray-600 mb-4">Controle de entrada e saída</p>
             </div>
-            <h5 class="text-lg font-semibold text-gray-800 mb-2">Registro de Ponto</h5>
-            <p class="text-gray-600 mb-4">Controle de entrada e saída</p>
-            <a href="{% url 'listar_pontos' 1 %}" class="bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-600 transition duration-200 inline-flex items-center">
+            <a href="{% url 'listar_pontos' 1 %}" class="bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-600 transition duration-200 inline-flex items-center justify-center">
                 <i class="bi bi-arrow-right mr-2"></i>Acessar
             </a>
         </div>

@@ -3,192 +3,193 @@
 {% block title %}Pagar Freelancer - Gestão de Freelancers{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-lg-8">
-        <div class="card card-custom">
-            <div class="card-header bg-success text-white">
-                <h4 class="card-title mb-0">
-                    <i class="bi bi-cash-coin me-2"></i>Pagar Freelancer
+<div class="flex justify-center">
+    <div class="w-full max-w-4xl">
+        <!-- Card Principal -->
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden mb-6">
+            <!-- Cabeçalho -->
+            <div class="bg-green-600 text-white px-6 py-4">
+                <h4 class="text-xl font-semibold flex items-center">
+                    <i class="bi bi-cash-coin mr-3"></i>Pagar Freelancer
                 </h4>
             </div>
-            <div class="card-body p-4">
+
+            <div class="p-6">
                 <!-- Resumo do Pagamento -->
-                <div class="alert alert-info">
-                    <h5 class="fw-bold mb-3">
-                        <i class="bi bi-info-circle me-2"></i>Resumo do Pagamento
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-6">
+                    <h5 class="font-bold text-blue-800 text-lg mb-4 flex items-center">
+                        <i class="bi bi-info-circle mr-3"></i>Resumo do Pagamento
                     </h5>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <strong class="text-primary">Freelancer:</strong><br>
-                                <span class="fs-5">{{ pagamento.freelancer.nome }}</span>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                        <!-- Coluna Esquerda -->
+                        <div>
+                            <div class="mb-4">
+                                <strong class="text-blue-700 block mb-1">Freelancer:</strong>
+                                <span class="text-xl text-gray-800">{{ pagamento.freelancer.nome }}</span>
                             </div>
-                            <div class="mb-3">
-                                <strong class="text-primary">Período:</strong><br>
-                                {{ pagamento.periodo_inicio|date:"d/m/Y" }} a {{ pagamento.periodo_fim|date:"d/m/Y" }}
+                            <div class="mb-4">
+                                <strong class="text-blue-700 block mb-1">Período:</strong>
+                                <span class="text-gray-600">{{ pagamento.periodo_inicio|date:"d/m/Y" }} a {{ pagamento.periodo_fim|date:"d/m/Y" }}</span>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <strong class="text-primary">Valor/Hora:</strong><br>
-                                <span class="fw-bold text-success">R$ {{ pagamento.freelancer.valor_hora }}</span>
+                        
+                        <!-- Coluna Direita -->
+                        <div>
+                            <div class="mb-4">
+                                <strong class="text-blue-700 block mb-1">Valor/Hora:</strong>
+                                <span class="font-bold text-green-600 text-lg">R$ {{ pagamento.freelancer.valor_hora }}</span>
                             </div>
-                            <div class="mb-3">
-                                <strong class="text-primary">Horas Trabalhadas:</strong><br>
-                                <span class="fw-bold text-info">{{ pagamento.horas_trabalhadas }}h</span>
+                            <div class="mb-4">
+                                <strong class="text-blue-700 block mb-1">Horas Trabalhadas:</strong>
+                                <span class="font-bold text-blue-500 text-lg">{{ pagamento.horas_trabalhadas }}h</span>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="row mt-3 border-top pt-3">
-                        <div class="col-md-4 text-center">
-                            <small class="text-muted">Valor Total</small>
-                            <p class="fw-bold text-dark fs-4 mb-0">R$ {{ pagamento.valor_total }}</p>
+                    <!-- Valores -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-blue-200">
+                        <div class="text-center">
+                            <small class="text-gray-500 block mb-1">Valor Total</small>
+                            <p class="font-bold text-gray-800 text-2xl">R$ {{ pagamento.valor_total }}</p>
                         </div>
-                        <div class="col-md-4 text-center">
-                            <small class="text-muted">Valor Já Pago</small>
-                            <p class="fw-bold text-success fs-4 mb-0">R$ {{ pagamento.valor_pago }}</p>
+                        <div class="text-center">
+                            <small class="text-gray-500 block mb-1">Valor Já Pago</small>
+                            <p class="font-bold text-green-600 text-2xl">R$ {{ pagamento.valor_pago }}</p>
                         </div>
-                        <div class="col-md-4 text-center">
-                            <small class="text-muted">Valor Pendente</small>
-                            <p class="fw-bold text-danger fs-4 mb-0">R$ {{ pagamento.valor_pendente }}</p>
+                        <div class="text-center">
+                            <small class="text-gray-500 block mb-1">Valor Pendente</small>
+                            <p class="font-bold text-red-600 text-2xl">R$ {{ pagamento.valor_pendente }}</p>
                         </div>
                     </div>
                 </div>
 
+                <!-- Formulário de Pagamento -->
                 <form method="post">
                     {% csrf_token %}
                     
-                    <div class="mb-4">
-                        <label for="valor_pago" class="form-label fw-bold">
-                            <i class="bi bi-currency-dollar me-2"></i>Valor do Pagamento (R$)
+                    <!-- Campo Valor -->
+                    <div class="mb-6">
+                        <label for="valor_pago" class="block text-gray-700 font-semibold mb-3 flex items-center">
+                            <i class="bi bi-currency-dollar mr-2"></i>Valor do Pagamento (R$)
                         </label>
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-text bg-success text-white">R$</span>
-                            <input type="number" step="0.01" class="form-control form-control-lg" 
+                        <div class="flex">
+                            <span class="inline-flex items-center px-4 bg-green-600 text-white rounded-l-lg border border-r-0 border-gray-300 font-semibold">
+                                R$
+                            </span>
+                            <input type="number" step="0.01" 
+                                   class="flex-1 min-w-0 block w-full px-4 py-3 text-lg rounded-r-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                                    id="valor_pago" name="valor_pago" 
                                    value="{{ pagamento.valor_pendente }}" 
                                    max="{{ pagamento.valor_pendente }}" 
                                    min="0.01" required>
                         </div>
-                        <div class="form-text mt-2">
-                            <i class="bi bi-info-circle me-1"></i>
-                            Valor máximo permitido: <strong class="text-danger">R$ {{ pagamento.valor_pendente }}</strong>
+                        <div class="text-gray-500 text-sm mt-2 flex items-center">
+                            <i class="bi bi-info-circle mr-1"></i>
+                            Valor máximo permitido: <strong class="text-red-600 ml-1">R$ {{ pagamento.valor_pendente }}</strong>
                         </div>
                     </div>
 
                     <!-- Informações do Status -->
-                    <div class="alert alert-warning">
-                        <h6 class="fw-bold mb-2">
-                            <i class="bi bi-exclamation-triangle me-2"></i>Status do Pagamento
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6">
+                        <h6 class="font-bold text-yellow-800 mb-3 flex items-center">
+                            <i class="bi bi-exclamation-triangle mr-2"></i>Status do Pagamento
                         </h6>
-                        <p class="mb-1" id="status-info">
+                        <p class="mb-2" id="status-info">
                             {% if pagamento.valor_pendente == pagamento.valor_total %}
-                                <strong>Status atual:</strong> <span class="badge bg-danger">Pendente</span>
+                                <strong class="text-yellow-700">Status atual:</strong> 
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 ml-2">
+                                    <i class="bi bi-clock mr-1"></i>Pendente
+                                </span>
                             {% elif pagamento.valor_pago > 0 %}
-                                <strong>Status atual:</strong> <span class="badge bg-warning">Pago Parcialmente</span>
+                                <strong class="text-yellow-700">Status atual:</strong> 
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800 ml-2">
+                                    <i class="bi bi-currency-exchange mr-1"></i>Pago Parcialmente
+                                </span>
                             {% endif %}
                         </p>
                         <p class="mb-0" id="status-futuro">
-                            <strong>Após este pagamento:</strong> 
-                            <span id="novo-status" class="badge bg-success">Pago</span>
+                            <strong class="text-yellow-700">Após este pagamento:</strong> 
+                            <span id="novo-status" class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 ml-2">
+                                <i class="bi bi-check-circle mr-1"></i>Pago
+                            </span>
                         </p>
                     </div>
 
                     <!-- Botões -->
-                    <div class="row mt-4 pt-3 border-top">
-                        <div class="col-md-6">
-                            <button type="submit" class="btn btn-success btn-custom w-100 py-3">
-                                <i class="bi bi-check-circle me-2"></i>Confirmar Pagamento
-                            </button>
-                        </div>
-                        <div class="col-md-6">
-                            <a href="{% url 'listar_pagamentos' %}" class="btn btn-outline-secondary btn-custom w-100 py-3">
-                                <i class="bi bi-x-circle me-2"></i>Cancelar
-                            </a>
-                        </div>
+                    <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
+                        <button type="submit" 
+                                class="flex-1 bg-green-600 text-white py-4 px-6 rounded-xl font-semibold hover:bg-green-700 transition duration-200 transform hover:-translate-y-1 shadow-lg flex items-center justify-center">
+                            <i class="bi bi-check-circle mr-3 text-xl"></i>Confirmar Pagamento
+                        </button>
+                        <a href="{% url 'listar_pagamentos' %}" 
+                           class="flex-1 bg-gray-200 text-gray-700 py-4 px-6 rounded-xl font-semibold hover:bg-gray-300 transition duration-200 flex items-center justify-center">
+                            <i class="bi bi-x-circle mr-3 text-xl"></i>Cancelar
+                        </a>
                     </div>
                 </form>
             </div>
         </div>
 
-        <!-- Informações dos Registros de Ponto -->
-        <div class="card card-custom mt-4">
-            <div class="card-header bg-primary text-white">
-                <h5 class="card-title mb-0">
-                    <i class="bi bi-clock me-2"></i>Registros de Ponto do Período
+        <!-- Tabela de Registros de Ponto -->
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+            <div class="bg-blue-600 text-white px-6 py-4">
+                <h5 class="text-lg font-semibold flex items-center">
+                    <i class="bi bi-clock mr-3"></i>Registros de Ponto do Período
                 </h5>
             </div>
-            <div class="card-body">
+            
+            <div class="p-6">
                 {% if registros_ponto %}
-                <div class="table-responsive">
-                    <table class="table table-sm table-hover">
-                        <thead>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50 border-b border-gray-200">
                             <tr>
-                                <th>Data Entrada</th>
-                                <th>Data Saída</th>
-                                <th>Duração</th>
-                                <th>Horas</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Data Entrada</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Data Saída</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Duração</th>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Horas</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="divide-y divide-gray-200">
                             {% for registro in registros_ponto %}
-                            <tr>
-                                <td>{{ registro.data_entrada|date:"d/m/Y H:i" }}</td>
-                                <td>{{ registro.data_saida|date:"d/m/Y H:i" }}</td>
-                                <td>{{ registro.duracao }}</td>
-                                <td>
-                                    <span class="badge bg-info">
+                            <tr class="hover:bg-gray-50 transition duration-150">
+                                <td class="px-4 py-3 text-sm text-gray-700">{{ registro.data_entrada|date:"d/m/Y H:i" }}</td>
+                                <td class="px-4 py-3 text-sm text-gray-700">{{ registro.data_saida|date:"d/m/Y H:i" }}</td>
+                                <td class="px-4 py-3 text-sm text-gray-700">{{ registro.duracao }}</td>
+                                <td class="px-4 py-3">
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                         {% widthratio registro.duracao_horas 1 1 %}h
                                     </span>
                                 </td>
                             </tr>
                             {% endfor %}
                         </tbody>
-                        <tfoot>
-                            <tr class="table-success">
-                                <td colspan="3" class="text-end fw-bold">Total de Horas:</td>
-                                <td class="fw-bold">{{ pagamento.horas_trabalhadas }}h</td>
+                        <tfoot class="bg-gray-50 border-t border-gray-200">
+                            <tr class="bg-green-50">
+                                <td colspan="3" class="px-4 py-3 text-sm font-bold text-gray-700 text-right">Total de Horas:</td>
+                                <td class="px-4 py-3 text-sm font-bold text-gray-700">{{ pagamento.horas_trabalhadas }}h</td>
                             </tr>
-                            <tr class="table-primary">
-                                <td colspan="3" class="text-end fw-bold">Valor Total Calculado:</td>
-                                <td class="fw-bold text-success">R$ {{ pagamento.valor_total }}</td>
+                            <tr class="bg-blue-50">
+                                <td colspan="3" class="px-4 py-3 text-sm font-bold text-gray-700 text-right">Valor Total Calculado:</td>
+                                <td class="px-4 py-3 text-sm font-bold text-green-600">R$ {{ pagamento.valor_total }}</td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
                 {% else %}
-                <div class="text-center py-3">
-                    <i class="bi bi-clock text-muted fs-1 mb-3"></i>
-                    <p class="text-muted mb-0">Nenhum registro de ponto encontrado para este período.</p>
+                <!-- Estado Vazio -->
+                <div class="text-center py-8">
+                    <div class="bg-gray-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <i class="bi bi-clock text-gray-400 text-2xl"></i>
+                    </div>
+                    <p class="text-gray-500">Nenhum registro de ponto encontrado para este período.</p>
                 </div>
                 {% endif %}
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    .form-control-lg {
-        padding: 12px 16px;
-        font-size: 1.1rem;
-        font-weight: 500;
-    }
-    
-    .input-group-text {
-        font-weight: 600;
-    }
-    
-    .btn-custom {
-        border-radius: 10px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-    
-    .btn-custom:hover {
-        transform: translateY(-2px);
-    }
-</style>
 
 <script>
     // Atualizar status em tempo real conforme o valor digitado
@@ -199,23 +200,23 @@
         const novoStatus = document.getElementById('novo-status');
         
         if (valorPago === valorPendente) {
-            novoStatus.className = 'badge bg-success';
-            novoStatus.textContent = 'Pago';
+            novoStatus.className = 'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 ml-2';
+            novoStatus.innerHTML = '<i class="bi bi-check-circle mr-1"></i>Pago';
         } else if (valorPago > 0) {
-            novoStatus.className = 'badge bg-warning';
-            novoStatus.textContent = 'Pago Parcialmente';
+            novoStatus.className = 'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800 ml-2';
+            novoStatus.innerHTML = '<i class="bi bi-currency-exchange mr-1"></i>Pago Parcialmente';
         } else {
-            novoStatus.className = 'badge bg-danger';
-            novoStatus.textContent = 'Pendente';
+            novoStatus.className = 'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 ml-2';
+            novoStatus.innerHTML = '<i class="bi bi-clock mr-1"></i>Pendente';
         }
         
         // Atualizar informações do valor restante
         const valorRestante = valorPendente - valorPago;
         document.getElementById('status-futuro').innerHTML = `
-            <strong>Após este pagamento:</strong> 
-            <span id="novo-status" class="${novoStatus.className}">${novoStatus.textContent}</span>
+            <strong class="text-yellow-700">Após este pagamento:</strong> 
+            <span id="novo-status" class="${novoStatus.className}">${novoStatus.innerHTML}</span>
             <br>
-            <small class="text-muted">Valor restante: R$ ${valorRestante.toFixed(2)}</small>
+            <small class="text-gray-500 text-sm mt-1 block">Valor restante: R$ ${valorRestante.toFixed(2)}</small>
         `;
     });
 </script>
