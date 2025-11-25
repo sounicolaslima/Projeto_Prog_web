@@ -1,271 +1,172 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Gestão de Freelancers{% endblock %}</title>
-    
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    
-    <style>
-        :root {
-            --primary-color: #4361ee;
-            --secondary-color: #3f37c9;
-            --success-color: #4cc9f0;
-            --light-bg: #f8f9fa;
-        }
-        
-        body {
-            background-color: #f5f7fb;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding-top: 0;
-        }
-        
-        .navbar-custom {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-            padding: 1rem 0;
-        }
-        
-        .card-custom {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-bottom: 1.5rem;
-        }
-        
-        .card-custom:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-        }
-        
-        .btn-custom {
-            border-radius: 10px;
-            font-weight: 600;
-            padding: 12px 25px;
-            transition: all 0.3s ease;
-            border: none;
-        }
-        
-        .btn-custom:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        
-        .table-custom {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
-        }
-        
-        .table-custom thead {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-        }
-        
-        .table-custom thead th {
-            border: none;
-            padding: 1rem;
-            font-weight: 600;
-        }
-        
-        .table-custom tbody td {
-            padding: 1rem;
-            vertical-align: middle;
-            border-color: #f1f3f4;
-        }
-        
-        .status-badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 600;
-        }
-        
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-        
-        .nav-link {
-            font-weight: 500;
-            border-radius: 8px;
-            margin: 0 2px;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-link:hover {
-            background-color: rgba(255,255,255,0.1);
-            transform: translateY(-1px);
-        }
-
-        /* Estilo para as badges do usuário */
-        .user-badge {
-            font-size: 0.7em;
-            padding: 3px 8px;
-            margin-left: 5px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Gestão de Freelancers{% endblock %}</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <style>
+    /* Podemos adicionar estilos personalizados aqui se necessário */
+  </style>
 </head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="{% url 'dashboard' %}">
-                <i class="bi bi-people-fill me-2"></i>Gestão Freelancers
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <!-- Menu Principal -->
-                <ul class="navbar-nav me-auto">
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'dashboard' %}">
-                            <i class="bi bi-speedometer2 me-1"></i>Dashboard
-                        </a>
-                    </li>
-                    
-                    <!-- MENU PARA ADMIN -->
-                    {% if user.perfilusuario.tipo == 'admin' %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'listar_freelancers' %}">
-                            <i class="bi bi-person-badge me-1"></i>Freelancers
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'listar_escalas' %}">
-                            <i class="bi bi-calendar-event me-1"></i>Escalas
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'listar_pagamentos' %}">
-                            <i class="bi bi-currency-dollar me-1"></i>Pagamentos
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'listar_pontos' 1 %}">
-                            <i class="bi bi-clock me-1"></i>Registro de Ponto
-                        </a>
-                    </li>
-                    
-                    <!-- MENU PARA FREELANCER -->
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'minhas_escalas' %}">
-                            <i class="bi bi-calendar-event me-1"></i>Minhas Escalas
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'meus_pontos' %}">
-                            <i class="bi bi-clock me-1"></i>Meus Pontos
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'meus_pagamentos' %}">
-                            <i class="bi bi-currency-dollar me-1"></i>Meus Pagamentos
-                        </a>
-                    </li>
-                    {% endif %}
-                    {% endif %}
-                </ul>
-
-                <!-- Menu do Usuário -->
-                <ul class="navbar-nav ms-auto">
-                    {% if user.is_authenticated %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
-                            <div class="bg-white bg-opacity-20 rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 32px; height: 32px;">
-                                <i class="bi bi-person-fill text-white"></i>
-                            </div>
-                            <span>
-                                {{ user.username }}
-                                {% if user.perfilusuario.tipo == 'admin' %}
-                                    <span class="badge bg-warning user-badge">Admin</span>
-                                {% else %}
-                                    <span class="badge bg-info user-badge">Freelancer</span>
-                                {% endif %}
-                            </span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <!-- LOGOUT ( usando POST) -->
-                            <li>
-                                <form method="post" action="{% url 'logout' %}" class="d-inline w-100">
-                                    {% csrf_token %}
-                                    <button type="submit" class="dropdown-item text-danger w-100 border-0 bg-transparent text-start">
-                                        <i class="bi bi-box-arrow-right me-2"></i>Sair
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">
-                            <i class="bi bi-box-arrow-in-right me-1"></i>Entrar
-                        </a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="container py-4">
-            <!-- Mensagens do Django -->
-            {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                    {% if message.tags == 'success' %}
-                    <i class="bi bi-check-circle-fill me-2"></i>
-                    {% elif message.tags == 'error' %}
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    {% elif message.tags == 'warning' %}
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    {% elif message.tags == 'info' %}
-                    <i class="bi bi-info-circle-fill me-2"></i>
-                    {% endif %}
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-                {% endfor %}
-            </div>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+  <!-- Navigation -->
+  <nav class="bg-gradient-to-r from-blue-600 to-blue-800 shadow-lg">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-center py-4">
+        <a href="{% url 'dashboard' %}" class="text-white text-2xl font-bold flex items-center">
+          <i class="bi bi-people-fill mr-2"></i>Gestão Freelancers
+        </a>
+        <button class="text-white lg:hidden" id="navbar-toggle">
+          <i class="bi bi-list"></i>
+        </button>
+        <div class="hidden lg:flex lg:items-center lg:w-auto" id="navbar-collapse">
+          <ul class="lg:flex lg:justify-between">
+            {% if user.is_authenticated %}
+            <li class="mr-6">
+              <a href="{% url 'dashboard' %}" class="text-white hover:text-blue-200 flex items-center py-2">
+                <i class="bi bi-speedometer2 mr-1"></i>Dashboard
+              </a>
+            </li>
+            <!-- MENU PARA ADMIN -->
+            {% if user.perfilusuario.tipo == 'admin' %}
+            <li class="mr-6">
+              <a href="{% url 'listar_freelancers' %}" class="text-white hover:text-blue-200 flex items-center py-2">
+                <i class="bi bi-person-badge mr-1"></i>Freelancers
+              </a>
+            </li>
+            <li class="mr-6">
+              <a href="{% url 'listar_escalas' %}" class="text-white hover:text-blue-200 flex items-center py-2">
+                <i class="bi bi-calendar-event mr-1"></i>Escalas
+              </a>
+            </li>
+            <li class="mr-6">
+              <a href="{% url 'listar_pagamentos' %}" class="text-white hover:text-blue-200 flex items-center py-2">
+                <i class="bi bi-currency-dollar mr-1"></i>Pagamentos
+              </a>
+            </li>
+            <li class="mr-6">
+              <a href="{% url 'listar_pontos' 1 %}" class="text-white hover:text-blue-200 flex items-center py-2">
+                <i class="bi bi-clock mr-1"></i>Registro de Ponto
+              </a>
+            </li>
+            <!-- MENU PARA FREELANCER -->
+            {% else %}
+            <li class="mr-6">
+              <a href="{% url 'minhas_escalas' %}" class="text-white hover:text-blue-200 flex items-center py-2">
+                <i class="bi bi-calendar-event mr-1"></i>Minhas Escalas
+              </a>
+            </li>
+            <li class="mr-6">
+              <a href="{% url 'meus_pontos' %}" class="text-white hover:text-blue-200 flex items-center py-2">
+                <i class="bi bi-clock mr-1"></i>Meus Pontos
+              </a>
+            </li>
+            <li class="mr-6">
+              <a href="{% url 'meus_pagamentos' %}" class="text-white hover:text-blue-200 flex items-center py-2">
+                <i class="bi bi-currency-dollar mr-1"></i>Meus Pagamentos
+              </a>
+            </li>
             {% endif %}
-
-            <!-- Conteúdo das páginas -->
-            {% block content %}
-            {% endblock %}
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-4 mt-5">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <p class="mb-0">&copy; 2025 Gestão de Freelancers. Todos os direitos reservados.</p>
+            {% endif %}
+          </ul>
+          <!-- Menu do Usuário -->
+          <ul class="lg:flex lg:items-center">
+            {% if user.is_authenticated %}
+            <li class="relative group">
+              <a href="#" class="text-white hover:text-blue-200 flex items-center py-2">
+                <div class="bg-white bg-opacity-20 rounded-full w-8 h-8 flex items-center justify-center mr-2">
+                  <i class="bi bi-person-fill text-white"></i>
                 </div>
-                <div class="col-md-6 text-md-end">
-                    <small class="text-light">Sistema de Gestão</small>
-                </div>
-            </div>
+                <span>
+                  {{ user.username }}
+                  {% if user.perfilusuario.tipo == 'admin' %}
+                  <span class="badge bg-yellow-500 text-xs ml-1">Admin</span>
+                  {% else %}
+                  <span class="badge bg-blue-500 text-xs ml-1">Freelancer</span>
+                  {% endif %}
+                </span>
+              </a>
+              <!-- Dropdown do usuário -->
+              <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden group-hover:block">
+                <form method="post" action="{% url 'logout' %}" class="w-full">
+                  {% csrf_token %}
+                  <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <i class="bi bi-box-arrow-right mr-2"></i>Sair
+                  </button>
+                </form>
+              </div>
+            </li>
+            {% else %}
+            <li>
+              <a href="{% url 'login' %}" class="text-white hover:text-blue-200 flex items-center py-2">
+                <i class="bi bi-box-arrow-in-right mr-1"></i>Entrar
+              </a>
+            </li>
+            {% endif %}
+          </ul>
         </div>
-    </footer>
+      </div>
+    </div>
+  </nav>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Scripts adicionais -->
-    {% block scripts %}
+  <!-- Main Content -->
+  <main class="container mx-auto my-4 px-4">
+    <!-- Mensagens do Django -->
+    {% if messages %}
+    <div class="messages mb-4">
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible bg-{{ message.tags }}-100 border border-{{ message.tags }}-400 text-{{ message.tags }}-700 px-4 py-3 rounded relative" role="alert">
+        {% if message.tags == 'success' %}
+        <i class="bi bi-check-circle-fill mr-2"></i>
+        {% elif message.tags == 'error' %}
+        <i class="bi bi-exclamation-triangle-fill mr-2"></i>
+        {% elif message.tags == 'warning' %}
+        <i class="bi bi-exclamation-triangle-fill mr-2"></i>
+        {% elif message.tags == 'info' %}
+        <i class="bi bi-info-circle-fill mr-2"></i>
+        {% endif %}
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Conteúdo das páginas -->
+    {% block content %}
     {% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-4 mt-8">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-2 md:mb-0">
+          <p>&copy; 2025 Gestão de Freelancers. Todos os direitos reservados.</p>
+        </div>
+        <div>
+          <small class="text-gray-400">Sistema de Gestão</small>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Script para o toggle do menu mobile
+    document.getElementById('navbar-toggle').addEventListener('click', function() {
+      document.getElementById('navbar-collapse').classList.toggle('hidden');
+    });
+  </script>
+
+  <!-- Scripts adicionais -->
+  {% block scripts %}
+  {% endblock %}
 </body>
 </html>
