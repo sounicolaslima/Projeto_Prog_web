@@ -5,26 +5,42 @@
 {% block content %}
 <div class="flex justify-center">
     <div class="w-full max-w-4xl">
+
         <!-- Card Principal -->
         <div class="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+
             <!-- Cabeçalho -->
             <div class="bg-primary text-white px-6 py-4">
-                <h4 class="text-xl font-semibold flex items-center">
-                    <i class="bi bi-currency-dollar mr-3"></i>Editar Pagamento
+                <h4 class="text-xl font-semibold flex items-center gap-3">
+                    <!-- Heroicon: Currency Dollar -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                              d="M12 6v12m0 0c-3.314 0-6-2.239-6-5s2.686-5 6-5 6 2.239 6 5-2.686 5-6 5z"/>
+                    </svg>
+                    Editar Pagamento
                 </h4>
             </div>
 
             <div class="p-6">
                 <form method="POST">
                     {% csrf_token %}
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+
                         <!-- Freelancer -->
                         <div class="md:col-span-2">
-                            <label class="block text-gray-700 font-semibold mb-3 flex items-center">
-                                <i class="bi bi-person mr-2"></i>Freelancer
+                            <label class="block text-gray-700 font-semibold mb-3 flex items-center gap-2">
+                                <!-- Heroicon: User -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                          d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a8.25 8.25 0 0115 0"/>
+                                </svg>
+                                Freelancer
                             </label>
-                            <select name="freelancer" class="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200" required>
+
+                            <select name="freelancer"
+                                class="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary transition"
+                                required>
                                 <option value="" disabled>Selecione um freelancer</option>
                                 {% for f in freelancers %}
                                 <option value="{{ f.id }}" {% if f.id == pagamento.freelancer.id %}selected{% endif %}>
@@ -32,75 +48,121 @@
                                 </option>
                                 {% endfor %}
                             </select>
+
                             <div class="text-gray-500 text-sm mt-2">Selecione o freelancer para o pagamento</div>
                         </div>
 
                         <!-- Período Início -->
                         <div>
-                            <label class="block text-gray-700 font-semibold mb-3 flex items-center">
-                                <i class="bi bi-calendar mr-2"></i>Período Início
+                            <label class="block text-gray-700 font-semibold mb-3 flex items-center gap-2">
+                                <!-- Heroicon: Calendar -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                          d="M8 7V3m8 4V3M4 11h16M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                Período Início
                             </label>
-                            <input type="date" name="periodo_inicio" 
+
+                            <input type="date" name="periodo_inicio"
                                    value="{{ pagamento.periodo_inicio|date:'Y-m-d' }}"
-                                   class="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200" required>
+                                   class="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary transition"
+                                   required>
+
                             <div class="text-gray-500 text-sm mt-2">Data inicial do período</div>
                         </div>
 
                         <!-- Período Fim -->
                         <div>
-                            <label class="block text-gray-700 font-semibold mb-3 flex items-center">
-                                <i class="bi bi-calendar-check mr-2"></i>Período Fim
+                            <label class="block text-gray-700 font-semibold mb-3 flex items-center gap-2">
+                                <!-- Heroicon: Calendar Check -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M8 7V3m8 4V3M4 11h16M9 16l2 2 4-4M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                Período Fim
                             </label>
-                            <input type="date" name="periodo_fim" 
+
+                            <input type="date" name="periodo_fim"
                                    value="{{ pagamento.periodo_fim|date:'Y-m-d' }}"
-                                   class="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200" required>
+                                   class="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary transition"
+                                   required>
+
                             <div class="text-gray-500 text-sm mt-2">Data final do período</div>
                         </div>
 
                         <!-- Valor -->
                         <div>
-                            <label class="block text-gray-700 font-semibold mb-3 flex items-center">
-                                <i class="bi bi-cash-coin mr-2"></i>Valor
+                            <label class="block text-gray-700 font-semibold mb-3 flex items-center gap-2">
+                                <!-- Heroicon: Banknotes -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                          d="M2.25 18.75h19.5m-19.5 0V9.75m0 9v-9m19.5 9v-9m0 9H2.25m0-9H21.75M6 9.75V6a6 6 0 0112 0v3.75"/>
+                                </svg>
+                                Valor
                             </label>
+
                             <div class="flex">
-                                <span class="inline-flex items-center px-4 bg-green-600 text-white rounded-l-lg border border-r-0 border-gray-300 font-semibold">
+                                <span class="inline-flex items-center px-4 bg-green-600 text-white rounded-l-lg font-semibold">
                                     R$
                                 </span>
-                                <input type="number" step="0.01" name="valor" 
+
+                                <input type="number" step="0.01" name="valor"
                                        value="{{ pagamento.valor_calculado }}"
-                                       class="flex-1 min-w-0 block w-full px-4 py-3 text-lg rounded-r-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" 
+                                       class="flex-1 px-4 py-3 text-lg border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-primary transition"
                                        placeholder="0,00" required>
                             </div>
+
                             <div class="text-gray-500 text-sm mt-2">Valor total do pagamento</div>
                         </div>
 
                         <!-- Status -->
                         <div>
-                            <label class="block text-gray-700 font-semibold mb-3 flex items-center">
-                                <i class="bi bi-info-circle mr-2"></i>Status
+                            <label class="block text-gray-700 font-semibold mb-3 flex items-center gap-2">
+                                <!-- Heroicon: Information Circle -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                          d="M12 9v3m0 3h.01M12 21a9 9 0 110-18 9 9 0 010 18z"/>
+                                </svg>
+                                Status
                             </label>
-                            <select name="status" class="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200" required>
-                                <option value="pendente" {% if pagamento.status == 'pendente' %}selected{% endif %}>Pendente</option>
-                                <option value="pago" {% if pagamento.status == 'pago' %}selected{% endif %}>Pago</option>
+
+                            <select name="status"
+                                class="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary transition"
+                                required>
+                                <option value="pendente" {% if pagamento.status == 'pendente' %}selected{% endif %}>
+                                    Pendente
+                                </option>
+                                <option value="pago" {% if pagamento.status == 'pago' %}selected{% endif %}>
+                                    Pago
+                                </option>
                             </select>
+
                             <div class="text-gray-500 text-sm mt-2">Status do pagamento</div>
                         </div>
                     </div>
 
-                    <!-- Informações Calculadas -->
+                    <!-- Resumo -->
                     <div class="bg-gray-50 border border-gray-200 rounded-xl p-6 mb-6">
-                        <h6 class="font-bold text-gray-800 text-lg mb-4 flex items-center">
-                            <i class="bi bi-calculator mr-3"></i>Resumo do Pagamento
+                        <h6 class="font-bold text-gray-800 text-lg mb-4 flex items-center gap-2">
+                            <!-- Heroicon: Calculator -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                      d="M9 8h6m-6 4h6m-6 4h6M5 3h14v18H5V3z"/>
+                            </svg>
+                            Resumo do Pagamento
                         </h6>
+
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                             <div>
                                 <small class="text-gray-500 block mb-1">Valor/Hora</small>
                                 <p class="font-bold text-primary text-xl" id="valorHora">-</p>
                             </div>
+
                             <div>
                                 <small class="text-gray-500 block mb-1">Horas Trabalhadas</small>
                                 <p class="font-bold text-green-600 text-xl" id="horasTrabalhadas">-</p>
                             </div>
+
                             <div>
                                 <small class="text-gray-500 block mb-1">Valor Calculado</small>
                                 <p class="font-bold text-yellow-600 text-xl" id="valorCalculado">-</p>
@@ -110,11 +172,27 @@
 
                     <!-- Botões -->
                     <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
-                        <button type="submit" class="flex-1 bg-green-600 text-white py-4 px-6 rounded-xl font-semibold hover:bg-green-700 transition duration-200 transform hover:-translate-y-1 shadow-lg flex items-center justify-center">
-                            <i class="bi bi-check-circle mr-3 text-xl"></i>Atualizar Pagamento
+
+                        <button type="submit"
+                            class="flex-1 bg-green-600 text-white py-4 px-6 rounded-xl font-semibold hover:bg-green-700 transition flex items-center justify-center gap-2 shadow-md">
+
+                            <!-- Heroicon: Check Circle -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                      d="M9 12l2 2 4-4m-3 10a9 9 0 110-18 9 9 0 010 18z"/>
+                            </svg>
+                            Atualizar Pagamento
                         </button>
-                        <a href="{% url 'listar_pagamentos' %}" class="flex-1 bg-gray-200 text-gray-700 py-4 px-6 rounded-xl font-semibold hover:bg-gray-300 transition duration-200 flex items-center justify-center">
-                            <i class="bi bi-arrow-left mr-3 text-xl"></i>Voltar para Lista
+
+                        <a href="{% url 'listar_pagamentos' %}"
+                           class="flex-1 bg-gray-200 text-gray-700 py-4 px-6 rounded-xl font-semibold hover:bg-gray-300 transition flex items-center justify-center gap-2">
+
+                            <!-- Heroicon: Arrow Left -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                      d="M15 19l-7-7 7-7"/>
+                            </svg>
+                            Voltar para Lista
                         </a>
                     </div>
                 </form>
@@ -124,14 +202,26 @@
         <!-- Informações Adicionais -->
         <div class="bg-white rounded-2xl shadow-lg border border-gray-200 mt-6">
             <div class="p-6">
-                <h6 class="font-bold text-gray-800 text-lg mb-4 flex items-center">
-                    <i class="bi bi-info-circle mr-3"></i>Informações Importantes
+
+                <h6 class="font-bold text-gray-800 text-lg mb-4 flex items-center gap-2">
+                    <!-- Heroicon: Information Circle -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                              d="M12 9v3m0 3h.01M12 21a9 9 0 110-18 9 9 0 010 18z"/>
+                    </svg>
+                    Informações Importantes
                 </h6>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
                     <!-- Pagamentos Pendentes -->
                     <div class="flex items-center">
                         <div class="bg-yellow-100 rounded-lg p-3 mr-4">
-                            <i class="bi bi-exclamation-triangle text-yellow-600 text-xl"></i>
+                            <!-- Heroicon: Exclamation Triangle -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                      d="M12 9v3m0 3h.01M12 3l9 16H3l9-16z"/>
+                            </svg>
                         </div>
                         <div>
                             <div class="font-semibold text-gray-800">Pagamentos Pendentes</div>
@@ -142,45 +232,31 @@
                     <!-- Pagamentos Realizados -->
                     <div class="flex items-center">
                         <div class="bg-green-100 rounded-lg p-3 mr-4">
-                            <i class="bi bi-check-circle text-green-600 text-xl"></i>
+                            <!-- Heroicon: Check Circle -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                      d="M9 12l2 2 4-4m-3 10a9 9 0 110-18 9 9 0 010 18z"/>
+                            </svg>
                         </div>
                         <div>
                             <div class="font-semibold text-gray-800">Pagamentos Realizados</div>
                             <div class="text-gray-500 text-sm">Já foram processados e pagos</div>
                         </div>
                     </div>
+
                 </div>
+
             </div>
         </div>
+
     </div>
 </div>
 
 <script>
-    // Script para calcular automaticamente quando selecionar freelancer
     document.querySelector('select[name="freelancer"]').addEventListener('change', function() {
-        console.log('Freelancer selecionado:', this.value);
-        
-        // Aqui você pode adicionar a lógica para buscar os dados do freelancer
-        // e calcular automaticamente os valores
-        // Por exemplo:
-        // - Buscar o valor/hora do freelancer selecionado
-        // - Calcular horas trabalhadas no período
-        // - Calcular valor total automaticamente
-        
-        // Exemplo de implementação (precisa ser adaptado para seu backend):
-        /*
-        const freelancerId = this.value;
-        fetch(`/api/freelancer/${freelancerId}/dados`)
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('valorHora').textContent = `R$ ${data.valor_hora}`;
-                document.getElementById('horasTrabalhadas').textContent = `${data.horas_trabalhadas}h`;
-                document.getElementById('valorCalculado').textContent = `R$ ${data.valor_total}`;
-            });
-        */
+        console.log('Freelancer selecionado:', this.value)
     });
 
-    // Inicializar valores quando a página carregar
     document.addEventListener('DOMContentLoaded', function() {
         const freelancerSelect = document.querySelector('select[name="freelancer"]');
         if (freelancerSelect.value) {

@@ -8,12 +8,15 @@
     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div class="flex-1">
             <h1 class="text-2xl lg:text-3xl font-bold text-gray-800 flex items-center">
-                <i class="bi bi-clock-history mr-3"></i>Registro de Ponto
+                <svg class="w-7 h-7 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                Registro de Ponto
             </h1>
             <!-- Seletor de Freelancer -->
             <div class="flex items-center gap-3 mt-4">
                 <span class="font-semibold text-gray-700">Freelancer:</span>
-                <select class="w-64 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-200" 
+                <select class="w-64 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" 
                         onchange="mudarFreelancer(this.value)">
                     {% for f in todos_freelancers %}
                     <option value="{{ f.id }}" {% if f.id == freelancer.id %}selected{% endif %}>
@@ -26,11 +29,17 @@
         <div class="flex gap-3">
             <a href="{% url 'registrar_ponto' freelancer.id %}" 
                class="bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 flex items-center">
-                <i class="bi bi-plus-circle mr-2"></i>Registrar Ponto
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                Registrar Ponto
             </a>
             <a href="{% url 'listar_freelancers' %}" 
                class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition duration-200 flex items-center">
-                <i class="bi bi-arrow-left mr-2"></i>Voltar
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Voltar
             </a>
         </div>
     </div>
@@ -40,16 +49,20 @@
         <!-- Total de Registros -->
         <div class="bg-white rounded-2xl shadow-lg border border-blue-200 p-6 text-center">
             <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <i class="bi bi-clock text-primary text-2xl"></i>
+                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
             </div>
-            <h4 class="text-3xl font-bold text-primary mb-2">{{ total_pontos }}</h4>
+            <h4 class="text-3xl font-bold text-blue-600 mb-2">{{ total_pontos }}</h4>
             <p class="text-gray-600">Total de Registros</p>
         </div>
 
         <!-- Registros Concluídos -->
         <div class="bg-white rounded-2xl shadow-lg border border-green-200 p-6 text-center">
             <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <i class="bi bi-check-circle text-green-600 text-2xl"></i>
+                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
             </div>
             <h4 class="text-3xl font-bold text-green-600 mb-2">{{ pontos_concluidos }}</h4>
             <p class="text-gray-600">Registros Concluídos</p>
@@ -58,7 +71,9 @@
         <!-- Em Andamento -->
         <div class="bg-white rounded-2xl shadow-lg border border-yellow-200 p-6 text-center">
             <div class="bg-yellow-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <i class="bi bi-clock-history text-yellow-600 text-2xl"></i>
+                <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
             </div>
             <h4 class="text-3xl font-bold text-yellow-600 mb-2">{{ pontos_andamento }}</h4>
             <p class="text-gray-600">Em Andamento</p>
@@ -68,9 +83,12 @@
     <!-- Tabela de Histórico -->
     <div class="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
         <!-- Cabeçalho da Tabela -->
-        <div class="bg-gradient-to-r from-primary to-secondary px-6 py-4">
+        <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4">
             <h5 class="text-white text-lg font-semibold flex items-center">
-                <i class="bi bi-list-check mr-3"></i>Histórico de Pontos - {{ freelancer.nome }}
+                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                </svg>
+                Histórico de Pontos - {{ freelancer.nome }}
             </h5>
         </div>
 
@@ -93,7 +111,9 @@
                         <td class="px-6 py-4">
                             <div class="flex items-center">
                                 <div class="bg-green-100 rounded-lg p-3 mr-4">
-                                    <i class="bi bi-box-arrow-in-right text-green-600"></i>
+                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                                    </svg>
                                 </div>
                                 <div>
                                     <strong class="text-gray-800 block">{{ ponto.data_entrada|date:"d/m/Y" }}</strong>
@@ -107,7 +127,9 @@
                             {% if ponto.data_saida %}
                             <div class="flex items-center">
                                 <div class="bg-red-100 rounded-lg p-3 mr-4">
-                                    <i class="bi bi-box-arrow-right text-red-600"></i>
+                                    <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                                    </svg>
                                 </div>
                                 <div>
                                     <strong class="text-gray-800 block">{{ ponto.data_saida|date:"d/m/Y" }}</strong>
@@ -130,11 +152,17 @@
                         <td class="px-6 py-4 text-center">
                             {% if ponto.data_saida %}
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                                <i class="bi bi-check-circle mr-1"></i>Concluído
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                Concluído
                             </span>
                             {% else %}
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
-                                <i class="bi bi-clock mr-1"></i>Em Andamento
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                Em Andamento
                             </span>
                             {% endif %}
                         </td>
@@ -146,13 +174,18 @@
             <!-- Estado Vazio -->
             <div class="text-center py-12">
                 <div class="bg-gray-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
-                    <i class="bi bi-clock text-gray-400 text-3xl"></i>
+                    <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
                 </div>
                 <h5 class="text-xl text-gray-500 mb-2">Nenhum registro de ponto para {{ freelancer.nome }}</h5>
                 <p class="text-gray-400 mb-6">Comece registrando o primeiro ponto</p>
                 <a href="{% url 'registrar_ponto' freelancer.id %}" 
-                   class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 inline-flex items-center">
-                    <i class="bi bi-plus-circle mr-2"></i>Registrar Primeiro Ponto
+                   class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 inline-flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                    </svg>
+                    Registrar Primeiro Ponto
                 </a>
             </div>
             {% endif %}
@@ -162,7 +195,9 @@
     <!-- Alerta de Registros em Andamento -->
     {% if pontos_andamento > 0 %}
     <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 flex items-center">
-        <i class="bi bi-exclamation-triangle text-yellow-600 text-xl mr-3"></i>
+        <svg class="w-6 h-6 text-yellow-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+        </svg>
         <div>
             <strong class="text-yellow-800">Atenção!</strong>
             <span class="text-yellow-700 ml-1">{{ freelancer.nome }} tem {{ pontos_andamento }} registro(s) em andamento.</span>

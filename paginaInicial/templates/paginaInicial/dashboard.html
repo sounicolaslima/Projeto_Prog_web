@@ -5,91 +5,127 @@
 {% block content %}
 <div class="mb-8">
     <div class="flex justify-between items-center mb-2">
-        <h1 class="text-3xl font-bold text-gray-800">
-            <i class="bi bi-speedometer2 mr-3"></i>Dashboard
+        <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M3 3v18h18M7 13h4m-4 4h6m-6-8h8m-8-4h10"/>
+            </svg>
+            Dashboard
         </h1>
-        <span class="bg-primary text-white px-4 py-2 rounded-full text-sm font-semibold">Gestão de Freelancers</span>
+        <span class="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
+            Gestão de Freelancers
+        </span>
     </div>
     <p class="text-gray-600">Visão geral do sistema de gestão</p>
 </div>
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    <!-- Freelancers Card -->
-    <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 border border-gray-100 flex flex-col">
-        <div class="p-6 text-center flex flex-col justify-between h-full">
+
+    <!-- Freelancers -->
+    <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1 border border-gray-100">
+        <div class="p-6 flex flex-col justify-between h-full text-center">
             <div>
                 <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <i class="bi bi-people-fill text-primary text-2xl"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                              d="M17 20h5v-2a4 4 0 00-4-4h-1m-4 6h5v-2a4 4 0 00-4-4h-1m-4 6h5V9a4 4 0 10-8 0v11z"/>
+                    </svg>
                 </div>
+
                 <h5 class="text-lg font-semibold text-gray-800 mb-2">Freelancers</h5>
                 <p class="text-gray-600 mb-4">Gerencie todos os freelancers cadastrados</p>
             </div>
-            <a href="{% url 'listar_freelancers' %}" class="bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition duration-200 inline-flex items-center justify-center">
-                <i class="bi bi-arrow-right mr-2"></i>Acessar
+
+            <a href="{% url 'listar_freelancers' %}"
+               class="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition flex items-center justify-center gap-2">
+                Acessar
             </a>
         </div>
     </div>
 
-    <!-- Escalas Card -->
-    <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 border border-gray-100 flex flex-col">
-        <div class="p-6 text-center flex flex-col justify-between h-full">
+    <!-- Escalas -->
+    <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1 border border-gray-100">
+        <div class="p-6 flex flex-col justify-between h-full text-center">
             <div>
                 <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <i class="bi bi-calendar-check text-green-600 text-2xl"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                              d="M8 7V3m8 4V3m-9 8h10m-12 8h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
                 </div>
+
                 <h5 class="text-lg font-semibold text-gray-800 mb-2">Escalas</h5>
                 <p class="text-gray-600 mb-4">Controle de escalas e horários</p>
             </div>
-            <a href="{% url 'listar_escalas' %}" class="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-700 transition duration-200 inline-flex items-center justify-center">
-                <i class="bi bi-arrow-right mr-2"></i>Acessar
+
+            <a href="{% url 'listar_escalas' %}"
+               class="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-700 transition flex items-center justify-center gap-2">
+                Acessar
             </a>
         </div>
     </div>
 
-    <!-- Pagamentos Card -->
-    <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 border border-gray-100 flex flex-col">
-        <div class="p-6 text-center flex flex-col justify-between h-full">
+    <!-- Pagamentos -->
+    <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1 border border-gray-100">
+        <div class="p-6 flex flex-col justify-between h-full text-center">
             <div>
                 <div class="bg-yellow-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <i class="bi bi-currency-dollar text-yellow-600 text-2xl"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                              d="M12 8c-1.657 0-3 1.343-3 3h6c0-1.657-1.343-3-3-3zm0 8a3 3 0 01-3-3h6a3 3 0 01-3 3zm0-14a9 9 0 100 18 9 9 0 000-18z"/>
+                    </svg>
                 </div>
+
                 <h5 class="text-lg font-semibold text-gray-800 mb-2">Pagamentos</h5>
                 <p class="text-gray-600 mb-4">Gestão financeira e pagamentos</p>
             </div>
-            <a href="{% url 'listar_pagamentos' %}" class="bg-yellow-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-yellow-700 transition duration-200 inline-flex items-center justify-center">
-                <i class="bi bi-arrow-right mr-2"></i>Acessar
+
+            <a href="{% url 'listar_pagamentos' %}"
+               class="bg-yellow-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-yellow-700 transition flex items-center justify-center gap-2">
+                Acessar
             </a>
         </div>
     </div>
 
-    <!-- Ponto Card -->
-    <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 border border-gray-100 flex flex-col">
-        <div class="p-6 text-center flex flex-col justify-between h-full">
+    <!-- Registro de ponto -->
+    <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1 border border-gray-100">
+        <div class="p-6 flex flex-col justify-between h-full text-center">
             <div>
                 <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <i class="bi bi-clock-history text-blue-500 text-2xl"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                              d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z"/>
+                    </svg>
                 </div>
+
                 <h5 class="text-lg font-semibold text-gray-800 mb-2">Registro de Ponto</h5>
                 <p class="text-gray-600 mb-4">Controle de entrada e saída</p>
             </div>
-            <a href="{% url 'listar_pontos' 1 %}" class="bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-600 transition duration-200 inline-flex items-center justify-center">
-                <i class="bi bi-arrow-right mr-2"></i>Acessar
+
+            <a href="{% url 'listar_pontos' 1 %}"
+               class="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition flex items-center justify-center gap-2">
+                Acessar
             </a>
         </div>
     </div>
 </div>
 
-<!-- Quick Stats -->
-<div class="bg-white rounded-2xl shadow-lg border border-gray-100">
+<!-- Resumo rápido -->
+<div class="bg-white rounded-2xl shadow-md border border-gray-100">
     <div class="p-6 border-b border-gray-200">
-        <h5 class="text-xl font-semibold text-gray-800 flex items-center">
-            <i class="bi bi-graph-up mr-3"></i>Resumo Rápido
+        <h5 class="text-xl font-semibold text-gray-800 flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                      d="M4 6v12m0 0l4-4m-4 4l4 4m12-16v12m0 0l4-4m-4 4l4 4m-12-8h4"/>
+            </svg>
+            Resumo Rápido
         </h5>
     </div>
+
     <div class="p-6">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div>
-                <h3 class="text-3xl font-bold text-primary">{{ total_freelancers }}</h3>
+                <h3 class="text-3xl font-bold text-blue-600">{{ total_freelancers }}</h3>
                 <p class="text-gray-600">Freelancers Ativos</p>
             </div>
             <div>
@@ -107,4 +143,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}
